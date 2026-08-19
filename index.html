@@ -1440,12 +1440,86 @@ async function registrarSalida() {
     }
 
 
+    /*
+     * =================================================
+     * CALCULAR HORAS TRABAJADAS
+     * =================================================
+     *
+     * Primero intentamos utilizar "horas"
+     * que viene desde Apps Script.
+     *
+     * Si llega undefined, null o no es un número,
+     * calculamos directamente usando:
+     *
+     * entrada + salida
+     *
+     * Esto evita que aparezca "undefined".
+     */
+
+
+    let horasTrabajadas;
+
+
+    if (
+      resultado.horas !== undefined &&
+      resultado.horas !== null &&
+      !isNaN(
+        Number(resultado.horas)
+      )
+    ) {
+
+      horasTrabajadas =
+        Number(
+          resultado.horas
+        );
+
+    }
+
+    else if (
+      resultado.entrada &&
+      resultado.salida
+    ) {
+
+      horasTrabajadas =
+        (
+          Number(resultado.salida) -
+          Number(resultado.entrada)
+        ) /
+        1000 /
+        60 /
+        60;
+
+    }
+
+    else {
+
+      horasTrabajadas = 0;
+
+    }
+
+
+    /*
+     * Redondeamos para evitar cosas como:
+     *
+     * 0.816666666666
+     */
+
+    horasTrabajadas =
+      Math.round(
+        horasTrabajadas * 100
+      ) / 100;
+
+
+    /*
+     * MOSTRAR RESULTADO
+     */
+
     mostrarMensajeApp(
 
       '✓ Salida registrada. ' +
       'Trabajaste ' +
       convertirHoras(
-        resultado.horas
+        horasTrabajadas
       ) +
       '.',
 
@@ -1454,12 +1528,20 @@ async function registrarSalida() {
     );
 
 
+    /*
+     * LIMPIAR CLIENTE
+     */
+
     document
       .getElementById(
         'cliente'
       )
       .value = '';
 
+
+    /*
+     * ACTUALIZAR ESTADO
+     */
 
     await actualizarEstado();
 
