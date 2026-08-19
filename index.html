@@ -1,1 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
 
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1">
+
+  <title>Prueba Control de Limpieza</title>
+
+</head>
+
+<body>
+
+  <h1>🧹 Control de Limpieza</h1>
+
+  <button onclick="probar()">
+    PROBAR CONEXIÓN
+  </button>
+
+  <pre id="resultado"></pre>
+
+
+<script>
+
+async function probar() {
+
+  const resultado =
+    document.getElementById(
+      'resultado'
+    );
+
+
+  resultado.textContent =
+    'Conectando...';
+
+
+  try {
+
+    const respuesta =
+      await fetch(
+        '/api',
+        {
+          method: 'POST',
+
+          headers: {
+            'Content-Type':
+              'application/json'
+          },
+
+          body: JSON.stringify({
+
+            accion:
+              'verificarUsuario',
+
+            email:
+              'sebastianrubio19@gmail.com'
+
+          })
+
+        }
+      );
+
+
+    const datos =
+      await respuesta.json();
+
+
+    resultado.textContent =
+      JSON.stringify(
+        datos,
+        null,
+        2
+      );
+
+
+  }
+  catch (error) {
+
+    resultado.textContent =
+      'ERROR:\n' +
+      error.message;
+
+  }
+
+}
+
+</script>
+
+</body>
+
+</html>
