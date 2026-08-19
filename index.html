@@ -854,6 +854,13 @@ async function llamarAPI(
     await respuesta.json();
 
 
+  console.log(
+    'RESPUESTA API:',
+    accion,
+    resultado
+  );
+
+
   return resultado;
 
 }
@@ -959,6 +966,7 @@ async function ingresar() {
 
 
   }
+
   catch (error) {
 
     mostrarMensajeLogin(
@@ -1127,6 +1135,7 @@ async function cargarClientes() {
 
 
   }
+
   catch (error) {
 
     mostrarMensajeApp(
@@ -1268,6 +1277,7 @@ async function actualizarEstado() {
 
 
   }
+
   catch (error) {
 
     mostrarMensajeApp(
@@ -1365,6 +1375,7 @@ async function registrarEntrada() {
 
 
   }
+
   catch (error) {
 
     mostrarMensajeApp(
@@ -1426,11 +1437,35 @@ async function registrarSalida() {
       );
 
 
-    if (!resultado.ok) {
+    /*
+     * MOSTRAR EN CONSOLA
+     *
+     * Esto nos permite comprobar
+     * exactamente qué devuelve la API.
+     */
+
+    console.log(
+      'RESPUESTA REGISTRAR SALIDA:',
+      resultado
+    );
+
+
+    if (
+      !resultado ||
+      !resultado.ok
+    ) {
 
       mostrarMensajeApp(
-        resultado.mensaje,
+
+        resultado &&
+        resultado.mensaje
+
+          ? resultado.mensaje
+
+          : 'No se pudo registrar la salida.',
+
         true
+
       );
 
       await actualizarEstado();
@@ -1442,85 +1477,133 @@ async function registrarSalida() {
 
     /*
      * =================================================
-     * CALCULAR HORAS TRABAJADAS
+     * OBTENER HORAS
      * =================================================
-     *
-     * Primero intentamos utilizar "horas"
-     * que viene desde Apps Script.
-     *
-     * Si llega undefined, null o no es un número,
-     * calculamos directamente usando:
-     *
-     * entrada + salida
-     *
-     * Esto evita que aparezca "undefined".
      */
 
+    let textoHoras = '';
 
-    let horasTrabajadas;
 
+    /*
+     * OPCIÓN 1
+     *
+     * Apps Script devuelve horasTexto.
+     */
 
     if (
-      resultado.horas !== undefined &&
-      resultado.horas !== null &&
-      !isNaN(
-        Number(resultado.horas)
-      )
+
+      resultado.horasTexto !== undefined &&
+
+      resultado.horasTexto !== null &&
+
+      String(
+        resultado.horasTexto
+      ).trim() !== ''
+
     ) {
 
-      horasTrabajadas =
-        Number(
-          resultado.horas
+      textoHoras =
+        String(
+          resultado.horasTexto
         );
 
     }
 
+
+    /*
+     * OPCIÓN 2
+     *
+     * Apps Script devuelve horas.
+     */
+
     else if (
-      resultado.entrada &&
-      resultado.salida
+
+      resultado.horas !== undefined &&
+
+      resultado.horas !== null &&
+
+      !isNaN(
+        Number(
+          resultado.horas
+        )
+      )
+
     ) {
 
-      horasTrabajadas =
-        (
-          Number(resultado.salida) -
-          Number(resultado.entrada)
-        ) /
+      textoHoras =
+        convertirHoras(
+          Number(
+            resultado.horas
+          )
+        );
+
+    }
+
+
+    /*
+     * OPCIÓN 3
+     *
+     * Calculamos con entrada y salida.
+     */
+
+    else if (
+
+      resultado.entrada !== undefined &&
+
+      resultado.salida !== undefined &&
+
+      resultado.entrada !== null &&
+
+      resultado.salida !== null
+
+    ) {
+
+      const diferencia =
+        Number(
+          resultado.salida
+        ) -
+        Number(
+          resultado.entrada
+        );
+
+
+      const horasCalculadas =
+        diferencia /
         1000 /
         60 /
         60;
 
+
+      textoHoras =
+        convertirHoras(
+          horasCalculadas
+        );
+
     }
+
+
+    /*
+     * SI TODO FALLA
+     */
 
     else {
 
-      horasTrabajadas = 0;
+      textoHoras =
+        'no disponibles';
 
     }
 
 
     /*
-     * Redondeamos para evitar cosas como:
-     *
-     * 0.816666666666
-     */
-
-    horasTrabajadas =
-      Math.round(
-        horasTrabajadas * 100
-      ) / 100;
-
-
-    /*
+     * =================================================
      * MOSTRAR RESULTADO
-     */
+     * ================================================= */
 
     mostrarMensajeApp(
 
       '✓ Salida registrada. ' +
       'Trabajaste ' +
-      convertirHoras(
-        horasTrabajadas
-      ) +
+      textoHoras +
       '.',
 
       false
@@ -1547,12 +1630,16 @@ async function registrarSalida() {
 
 
   }
+
   catch (error) {
 
     mostrarMensajeApp(
+
       'ERROR: ' +
       error.message,
+
       true
+
     );
 
     boton.disabled = false;
@@ -1635,7 +1722,9 @@ function formatearHora(
 ) {
 
   const fecha =
-    new Date(timestamp);
+    new Date(
+      timestamp
+    );
 
 
   return fecha.toLocaleTimeString(
@@ -1664,17 +1753,57 @@ function convertirHoras(
   horas
 ) {
 
+  horas =
+    Number(
+      horas
+    );
+
+
+  if (
+    !isFinite(horas) ||
+    horas < 0
+  ) {
+
+    return '0 minutos';
+
+  }
+
+
   const h =
-    Math.floor(horas);
+    Math.floor(
+      horas
+    );
 
 
   const minutos =
     Math.round(
-      (horas - h) * 60
+      (
+        horas -
+        h
+      ) *
+      60
     );
 
 
-  if (h === 0) {
+  /*
+   * CORREGIR 60 MINUTOS
+   */
+
+  if (
+    minutos >= 60
+  ) {
+
+    return (
+      h + 1
+    ) +
+    ' h';
+
+  }
+
+
+  if (
+    h === 0
+  ) {
 
     return
       minutos +
@@ -1683,11 +1812,38 @@ function convertirHoras(
   }
 
 
+  if (
+    minutos === 0
+  ) {
+
+    return
+      h +
+      (
+        h === 1
+          ? ' hora'
+          : ' horas'
+      );
+
+  }
+
+
   return
+
     h +
-    ' h ' +
+
+    (
+      h === 1
+        ? ' hora '
+        : ' horas '
+    ) +
+
     minutos +
-    ' min';
+
+    (
+      minutos === 1
+        ? ' minuto'
+        : ' minutos'
+    );
 
 }
 
