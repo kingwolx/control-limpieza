@@ -2,7 +2,13 @@
 <html lang="es">
 
 <head>
+<link rel="manifest" href="./manifest.json">
 
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<link rel="apple-touch-icon" href="./icon-192.png">
 <meta charset="UTF-8">
 
 <meta
@@ -1938,7 +1944,35 @@ function mostrarMensajeApp(
 }
 
 </script>
+<script>
 
+if ('serviceWorker' in navigator) {
+
+  window.addEventListener('load', function() {
+
+    navigator.serviceWorker
+      .register('./sw.js')
+      .then(function() {
+
+        console.log(
+          'Service Worker registrado correctamente.'
+        );
+
+      })
+      .catch(function(error) {
+
+        console.error(
+          'Error registrando Service Worker:',
+          error
+        );
+
+      });
+
+  });
+
+}
+
+</script>
 </body>
 
 </html>
