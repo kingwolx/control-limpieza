@@ -3,86 +3,1697 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1">
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 
-  <title>Prueba Control de Limpieza</title>
+<meta
+  name="theme-color"
+  content="#f4f6f8">
+
+<meta
+  name="apple-mobile-web-app-capable"
+  content="yes">
+
+<meta
+  name="apple-mobile-web-app-status-bar-style"
+  content="default">
+
+<title>Control de Limpieza</title>
+
+
+<style>
+
+/* =====================================================
+   BASE
+   ===================================================== */
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100%;
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+  background: #f4f6f8;
+  color: #222;
+}
+
+body {
+  min-height: 100dvh;
+}
+
+
+/* =====================================================
+   CONTENEDOR PRINCIPAL
+   ===================================================== */
+
+.app {
+  width: 100%;
+  min-height: 100dvh;
+
+  display: flex;
+  justify-content: center;
+
+  padding:
+    max(20px, env(safe-area-inset-top))
+    max(16px, env(safe-area-inset-right))
+    max(20px, env(safe-area-inset-bottom))
+    max(16px, env(safe-area-inset-left));
+}
+
+
+.contenido {
+  width: 100%;
+  max-width: 620px;
+}
+
+
+/* =====================================================
+   ENCABEZADO
+   ===================================================== */
+
+.encabezado {
+  text-align: center;
+  padding: 18px 0 22px;
+}
+
+.logo {
+  width: 72px;
+  height: 72px;
+
+  margin: 0 auto 15px;
+
+  border-radius: 22px;
+
+  background: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 38px;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.08);
+}
+
+.titulo {
+  margin: 0;
+
+  font-size: clamp(
+    25px,
+    7vw,
+    36px
+  );
+
+  font-weight: 800;
+
+  letter-spacing: -.5px;
+}
+
+.subtitulo {
+  margin-top: 7px;
+
+  font-size: clamp(
+    15px,
+    4vw,
+    19px
+  );
+
+  color: #777;
+}
+
+
+/* =====================================================
+   TARJETA
+   ===================================================== */
+
+.tarjeta {
+  width: 100%;
+
+  background: white;
+
+  border-radius: 28px;
+
+  padding:
+    clamp(24px, 6vw, 38px);
+
+  box-shadow:
+    0 12px 40px rgba(0,0,0,.08);
+}
+
+
+/* =====================================================
+   LOGIN
+   ===================================================== */
+
+.login-titulo {
+  text-align: center;
+
+  font-size:
+    clamp(22px, 6vw, 30px);
+
+  font-weight: 700;
+
+  margin-bottom: 25px;
+}
+
+label {
+  display: block;
+
+  font-size:
+    clamp(17px, 4.5vw, 20px);
+
+  font-weight: 700;
+
+  margin-bottom: 10px;
+}
+
+input,
+select {
+
+  width: 100%;
+
+  height:
+    clamp(62px, 15vw, 76px);
+
+  border:
+    2px solid #e1e4e8;
+
+  border-radius: 17px;
+
+  background: #fafbfc;
+
+  padding:
+    0 18px;
+
+  font-size:
+    clamp(18px, 5vw, 22px);
+
+  outline: none;
+
+  margin-bottom: 20px;
+
+  color: #222;
+}
+
+input:focus,
+select:focus {
+  border-color: #444;
+  background: white;
+}
+
+
+/* =====================================================
+   BOTONES
+   ===================================================== */
+
+button {
+
+  width: 100%;
+
+  min-height:
+    clamp(70px, 17vw, 88px);
+
+  border: 0;
+
+  border-radius: 19px;
+
+  font-size:
+    clamp(19px, 5vw, 24px);
+
+  font-weight: 800;
+
+  letter-spacing: .2px;
+
+  cursor: pointer;
+
+  margin-top: 12px;
+
+  transition:
+    transform .08s ease,
+    opacity .2s ease;
+}
+
+button:active {
+  transform: scale(.98);
+}
+
+button:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+
+/* =====================================================
+   BOTÓN CONTINUAR
+   ===================================================== */
+
+.btn-continuar {
+  background: #252525;
+  color: white;
+}
+
+
+/* =====================================================
+   BOTÓN ENTRADA
+   ===================================================== */
+
+.btn-entrada {
+
+  background: #27ae60;
+
+  color: white;
+
+  box-shadow:
+    0 8px 20px rgba(39,174,96,.25);
+}
+
+
+/* =====================================================
+   BOTÓN SALIDA
+   ===================================================== */
+
+.btn-salida {
+
+  background: #d94b4b;
+
+  color: white;
+
+  box-shadow:
+    0 8px 20px rgba(217,75,75,.22);
+}
+
+
+/* =====================================================
+   BIENVENIDA
+   ===================================================== */
+
+.bienvenida {
+
+  text-align: center;
+
+  margin-bottom: 28px;
+}
+
+.hola {
+
+  font-size:
+    clamp(22px, 6vw, 30px);
+
+  font-weight: 700;
+
+  line-height: 1.2;
+}
+
+.nombre {
+
+  font-size:
+    clamp(30px, 8vw, 42px);
+
+  font-weight: 800;
+
+  margin-top: 5px;
+}
+
+.email {
+
+  margin-top: 8px;
+
+  color: #888;
+
+  font-size:
+    clamp(13px, 3.5vw, 16px);
+
+  word-break: break-word;
+}
+
+
+/* =====================================================
+   ESTADO
+   ===================================================== */
+
+.estado {
+
+  margin-top: 25px;
+
+  padding:
+    clamp(20px, 5vw, 28px);
+
+  border-radius: 20px;
+
+  text-align: center;
+
+  font-size:
+    clamp(17px, 4.5vw, 21px);
+
+  line-height: 1.65;
+}
+
+.estado-libre {
+
+  background: #f0f2f4;
+
+  color: #666;
+}
+
+.estado-trabajando {
+
+  background: #e5f7eb;
+
+  color: #20733f;
+}
+
+.estado-titulo {
+
+  font-size:
+    clamp(20px, 5vw, 25px);
+
+  font-weight: 800;
+}
+
+
+/* =====================================================
+   MENSAJES
+   ===================================================== */
+
+.mensaje {
+
+  min-height: 28px;
+
+  text-align: center;
+
+  margin-top: 18px;
+
+  font-size:
+    clamp(16px, 4vw, 19px);
+
+  font-weight: 700;
+
+  line-height: 1.4;
+}
+
+.mensaje-error {
+  color: #c62828;
+}
+
+.mensaje-ok {
+  color: #237642;
+}
+
+.mensaje-cargando {
+  color: #777;
+}
+
+
+/* =====================================================
+   SEPARADOR
+   ===================================================== */
+
+.separador {
+
+  height: 1px;
+
+  background: #ececec;
+
+  margin:
+    28px 0 20px;
+}
+
+
+/* =====================================================
+   CAMBIAR USUARIO
+   ===================================================== */
+
+.btn-cambiar {
+
+  min-height: 58px;
+
+  background: #f0f1f3;
+
+  color: #444;
+
+  font-size:
+    clamp(16px, 4vw, 19px);
+
+  box-shadow: none;
+}
+
+
+/* =====================================================
+   OCULTO
+   ===================================================== */
+
+.oculto {
+  display: none !important;
+}
+
+
+/* =====================================================
+   PANTALLAS MUY GRANDES
+   ===================================================== */
+
+@media (min-width: 700px) {
+
+  .app {
+    align-items: center;
+  }
+
+}
+
+
+/* =====================================================
+   CELULAR VERTICAL
+   ===================================================== */
+
+@media (max-width: 500px) {
+
+  .app {
+    padding:
+      max(14px, env(safe-area-inset-top))
+      14px
+      max(14px, env(safe-area-inset-bottom))
+      14px;
+  }
+
+  .encabezado {
+    padding-top: 8px;
+  }
+
+  .logo {
+    width: 64px;
+    height: 64px;
+    font-size: 34px;
+  }
+
+  .tarjeta {
+    border-radius: 24px;
+  }
+
+}
+
+
+/* =====================================================
+   CELULAR MUY ALTO / VERTICAL
+   ===================================================== */
+
+@media (
+  max-width: 500px
+) and (
+  min-height: 750px
+) {
+
+  .app {
+    align-items: flex-start;
+  }
+
+  .encabezado {
+    padding-top: 12px;
+    padding-bottom: 18px;
+  }
+
+  .tarjeta {
+    padding: 28px 22px;
+  }
+
+}
+
+
+/* =====================================================
+   HORIZONTAL
+   ===================================================== */
+
+@media (
+  orientation: landscape
+) and (
+  max-height: 600px
+) {
+
+  .app {
+    padding: 14px;
+  }
+
+  .encabezado {
+    padding: 5px 0 10px;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .tarjeta {
+    padding: 20px;
+  }
+
+  input,
+  select {
+    height: 58px;
+  }
+
+  button {
+    min-height: 62px;
+  }
+
+}
+
+</style>
 
 </head>
 
+
 <body>
 
-  <h1>🧹 Control de Limpieza</h1>
 
-  <button onclick="probar()">
-    PROBAR CONEXIÓN
+<div class="app">
+
+<div class="contenido">
+
+
+<!-- ==================================================
+     ENCABEZADO
+     ================================================== -->
+
+<div class="encabezado">
+
+  <div class="logo">
+    🧹
+  </div>
+
+  <h1 class="titulo">
+    CONTROL DE LIMPIEZA
+  </h1>
+
+  <div class="subtitulo">
+    Registro de entrada y salida
+  </div>
+
+</div>
+
+
+<!-- ==================================================
+     LOGIN
+     ================================================== -->
+
+<div
+  id="pantallaLogin"
+  class="tarjeta">
+
+
+  <div class="login-titulo">
+    Ingresá a tu aplicación
+  </div>
+
+
+  <label>
+    Email
+  </label>
+
+
+  <input
+    id="email"
+    type="email"
+    placeholder="Ingresá tu email"
+    autocomplete="email">
+
+
+  <button
+    id="btnContinuar"
+    class="btn-continuar"
+    onclick="ingresar()">
+
+    CONTINUAR
+
   </button>
 
-  <pre id="resultado"></pre>
+
+  <div
+    id="mensajeLogin"
+    class="mensaje">
+  </div>
+
+</div>
+
+
+
+<!-- ==================================================
+     APLICACIÓN
+     ================================================== -->
+
+<div
+  id="pantallaApp"
+  class="tarjeta oculto">
+
+
+  <div class="bienvenida">
+
+    <div class="hola">
+      👋 HOLA
+    </div>
+
+    <div
+      id="nombreUsuario"
+      class="nombre">
+    </div>
+
+    <div
+      id="emailUsuario"
+      class="email">
+    </div>
+
+  </div>
+
+
+  <!-- CLIENTE -->
+
+  <label>
+    Cliente
+  </label>
+
+
+  <select
+    id="cliente">
+
+    <option value="">
+      Seleccionar cliente
+    </option>
+
+  </select>
+
+
+  <!-- ENTRADA -->
+
+  <button
+    id="btnEntrada"
+    class="btn-entrada"
+    onclick="registrarEntrada()">
+
+    🟢 REGISTRAR ENTRADA
+
+  </button>
+
+
+  <!-- SALIDA -->
+
+  <button
+    id="btnSalida"
+    class="btn-salida"
+    onclick="registrarSalida()">
+
+    🔴 REGISTRAR SALIDA
+
+  </button>
+
+
+  <!-- ESTADO -->
+
+  <div
+    id="estado"
+    class="estado estado-libre">
+
+    ⚪
+    <span class="estado-titulo">
+      NO ESTÁS TRABAJANDO
+    </span>
+
+  </div>
+
+
+  <div
+    id="mensajeApp"
+    class="mensaje">
+  </div>
+
+
+  <div class="separador"></div>
+
+
+  <button
+    class="btn-cambiar"
+    onclick="cambiarUsuario()">
+
+    ⚙️ CAMBIAR USUARIO
+
+  </button>
+
+
+</div>
+
+
+</div>
+
+</div>
+
 
 
 <script>
 
-async function probar() {
+/* =====================================================
+   CONFIGURACIÓN
+   ===================================================== */
 
-  const resultado =
-    document.getElementById(
-      'resultado'
+const API =
+  '/api';
+
+
+let emailActual = '';
+
+
+
+/* =====================================================
+   INICIO
+   ===================================================== */
+
+window.addEventListener(
+  'load',
+  iniciar
+);
+
+
+function iniciar() {
+
+  const email =
+    localStorage.getItem(
+      'controlLimpiezaEmail'
+    );
+
+  const nombre =
+    localStorage.getItem(
+      'controlLimpiezaNombre'
     );
 
 
-  resultado.textContent =
-    'Conectando...';
+  if (
+    email &&
+    nombre
+  ) {
+
+    emailActual =
+      email;
+
+    mostrarAplicacion(
+      email,
+      nombre
+    );
+
+    cargarClientes();
+
+    actualizarEstado();
+
+  }
+
+}
+
+
+
+/* =====================================================
+   PETICIÓN API
+   ===================================================== */
+
+async function llamarAPI(
+  accion,
+  datos = {}
+) {
+
+  const respuesta =
+    await fetch(
+      API,
+      {
+        method: 'POST',
+
+        headers: {
+          'Content-Type':
+            'application/json'
+        },
+
+        body:
+          JSON.stringify({
+
+            accion:
+              accion,
+
+            ...datos
+
+          })
+
+      }
+    );
+
+
+  const resultado =
+    await respuesta.json();
+
+
+  return resultado;
+
+}
+
+
+
+/* =====================================================
+   INGRESAR
+   ===================================================== */
+
+async function ingresar() {
+
+  const input =
+    document.getElementById(
+      'email'
+    );
+
+
+  const email =
+    input.value
+      .trim()
+      .toLowerCase();
+
+
+  if (!email) {
+
+    mostrarMensajeLogin(
+      'Ingresá tu email.',
+      true
+    );
+
+    return;
+
+  }
+
+
+  const boton =
+    document.getElementById(
+      'btnContinuar'
+    );
+
+
+  boton.disabled = true;
+
+
+  mostrarMensajeLogin(
+    'Verificando...',
+    false,
+    true
+  );
 
 
   try {
 
-    const respuesta =
-      await fetch(
-        '/api',
+    const resultado =
+      await llamarAPI(
+        'verificarUsuario',
         {
-          method: 'POST',
-
-          headers: {
-            'Content-Type':
-              'application/json'
-          },
-
-          body: JSON.stringify({
-
-            accion:
-              'verificarUsuario',
-
-            email:
-              'sebastianrubio19@gmail.com'
-
-          })
-
+          email: email
         }
       );
 
 
-    const datos =
-      await respuesta.json();
+    if (!resultado.ok) {
 
-
-    resultado.textContent =
-      JSON.stringify(
-        datos,
-        null,
-        2
+      mostrarMensajeLogin(
+        resultado.mensaje,
+        true
       );
+
+      boton.disabled = false;
+
+      return;
+
+    }
+
+
+    localStorage.setItem(
+      'controlLimpiezaEmail',
+      resultado.email
+    );
+
+
+    localStorage.setItem(
+      'controlLimpiezaNombre',
+      resultado.nombre
+    );
+
+
+    emailActual =
+      resultado.email;
+
+
+    mostrarAplicacion(
+      resultado.email,
+      resultado.nombre
+    );
+
+
+    cargarClientes();
+
+    actualizarEstado();
 
 
   }
   catch (error) {
 
-    resultado.textContent =
-      'ERROR:\n' +
-      error.message;
+    mostrarMensajeLogin(
+      'Error de conexión: ' +
+      error.message,
+      true
+    );
+
+  }
+
+
+  boton.disabled = false;
+
+}
+
+
+
+/* =====================================================
+   MOSTRAR APLICACIÓN
+   ===================================================== */
+
+function mostrarAplicacion(
+  email,
+  nombre
+) {
+
+  document
+    .getElementById(
+      'pantallaLogin'
+    )
+    .classList
+    .add('oculto');
+
+
+  document
+    .getElementById(
+      'pantallaApp'
+    )
+    .classList
+    .remove('oculto');
+
+
+  document
+    .getElementById(
+      'nombreUsuario'
+    )
+    .innerText =
+      nombre;
+
+
+  document
+    .getElementById(
+      'emailUsuario'
+    )
+    .innerText =
+      email;
+
+}
+
+
+
+/* =====================================================
+   CLIENTES
+   ===================================================== */
+
+async function cargarClientes() {
+
+  mostrarMensajeApp(
+    'Cargando clientes...',
+    false,
+    true
+  );
+
+
+  try {
+
+    const resultado =
+      await llamarAPI(
+        'obtenerClientes',
+        {
+          email:
+            emailActual
+        }
+      );
+
+
+    if (!resultado.ok) {
+
+      mostrarMensajeApp(
+        resultado.mensaje,
+        true
+      );
+
+      return;
+
+    }
+
+
+    const select =
+      document.getElementById(
+        'cliente'
+      );
+
+
+    select.innerHTML = '';
+
+
+    const primera =
+      document.createElement(
+        'option'
+      );
+
+
+    primera.value = '';
+
+    primera.textContent =
+      'Seleccionar cliente';
+
+
+    select.appendChild(
+      primera
+    );
+
+
+    resultado.clientes
+      .forEach(
+        function(nombreCliente) {
+
+          const opcion =
+            document.createElement(
+              'option'
+            );
+
+          opcion.value =
+            nombreCliente;
+
+          opcion.textContent =
+            nombreCliente;
+
+          select.appendChild(
+            opcion
+          );
+
+        }
+      );
+
+
+    if (
+      resultado.clientes.length === 0
+    ) {
+
+      mostrarMensajeApp(
+        'No hay clientes asignados.',
+        true
+      );
+
+      return;
+
+    }
+
+
+    mostrarMensajeApp(
+      '',
+      false
+    );
+
+
+  }
+  catch (error) {
+
+    mostrarMensajeApp(
+      'Error al cargar clientes: ' +
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+
+/* =====================================================
+   ESTADO
+   ===================================================== */
+
+async function actualizarEstado() {
+
+  try {
+
+    const resultado =
+      await llamarAPI(
+        'obtenerEstado',
+        {
+          email:
+            emailActual
+        }
+      );
+
+
+    if (!resultado.ok) {
+
+      mostrarMensajeApp(
+        resultado.mensaje,
+        true
+      );
+
+      return;
+
+    }
+
+
+    const estado =
+      document.getElementById(
+        'estado'
+      );
+
+
+    const btnEntrada =
+      document.getElementById(
+        'btnEntrada'
+      );
+
+
+    const btnSalida =
+      document.getElementById(
+        'btnSalida'
+      );
+
+
+    const cliente =
+      document.getElementById(
+        'cliente'
+      );
+
+
+    if (
+      resultado.trabajando
+    ) {
+
+      estado.className =
+        'estado estado-trabajando';
+
+
+      estado.innerHTML =
+
+        '🟢 ' +
+
+        '<span class="estado-titulo">' +
+        'ESTÁS TRABAJANDO' +
+        '</span>' +
+
+        '<br><br>' +
+
+        'Cliente: <b>' +
+        resultado.cliente +
+        '</b>' +
+
+        '<br>' +
+
+        'Entrada: ' +
+        formatearHora(
+          resultado.entrada
+        );
+
+
+      btnEntrada.disabled =
+        true;
+
+
+      btnSalida.disabled =
+        false;
+
+
+      cliente.disabled =
+        true;
+
+    }
+
+    else {
+
+      estado.className =
+        'estado estado-libre';
+
+
+      estado.innerHTML =
+
+        '⚪ ' +
+
+        '<span class="estado-titulo">' +
+        'NO ESTÁS TRABAJANDO' +
+        '</span>';
+
+
+      btnEntrada.disabled =
+        false;
+
+
+      btnSalida.disabled =
+        true;
+
+
+      cliente.disabled =
+        false;
+
+    }
+
+
+  }
+  catch (error) {
+
+    mostrarMensajeApp(
+      'Error al consultar estado: ' +
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+
+/* =====================================================
+   ENTRADA
+   ===================================================== */
+
+async function registrarEntrada() {
+
+  const select =
+    document.getElementById(
+      'cliente'
+    );
+
+
+  const cliente =
+    select.value;
+
+
+  if (!cliente) {
+
+    mostrarMensajeApp(
+      'Seleccioná un cliente.',
+      true
+    );
+
+    return;
+
+  }
+
+
+  const boton =
+    document.getElementById(
+      'btnEntrada'
+    );
+
+
+  boton.disabled = true;
+
+
+  mostrarMensajeApp(
+    'Registrando entrada...',
+    false,
+    true
+  );
+
+
+  try {
+
+    const resultado =
+      await llamarAPI(
+        'registrarEntrada',
+        {
+          email:
+            emailActual,
+
+          cliente:
+            cliente
+        }
+      );
+
+
+    if (!resultado.ok) {
+
+      mostrarMensajeApp(
+        resultado.mensaje,
+        true
+      );
+
+      await actualizarEstado();
+
+      return;
+
+    }
+
+
+    mostrarMensajeApp(
+      '✓ Entrada registrada correctamente.',
+      false
+    );
+
+
+    await actualizarEstado();
+
+
+  }
+  catch (error) {
+
+    mostrarMensajeApp(
+      'ERROR: ' +
+      error.message,
+      true
+    );
+
+    boton.disabled = false;
+
+  }
+
+}
+
+
+
+/* =====================================================
+   SALIDA
+   ===================================================== */
+
+async function registrarSalida() {
+
+  if (
+    !confirm(
+      '¿Confirmás que querés registrar la salida?'
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  const boton =
+    document.getElementById(
+      'btnSalida'
+    );
+
+
+  boton.disabled = true;
+
+
+  mostrarMensajeApp(
+    'Registrando salida...',
+    false,
+    true
+  );
+
+
+  try {
+
+    const resultado =
+      await llamarAPI(
+        'registrarSalida',
+        {
+          email:
+            emailActual
+        }
+      );
+
+
+    if (!resultado.ok) {
+
+      mostrarMensajeApp(
+        resultado.mensaje,
+        true
+      );
+
+      await actualizarEstado();
+
+      return;
+
+    }
+
+
+    mostrarMensajeApp(
+
+      '✓ Salida registrada. ' +
+      'Trabajaste ' +
+      convertirHoras(
+        resultado.horas
+      ) +
+      '.',
+
+      false
+
+    );
+
+
+    document
+      .getElementById(
+        'cliente'
+      )
+      .value = '';
+
+
+    await actualizarEstado();
+
+
+  }
+  catch (error) {
+
+    mostrarMensajeApp(
+      'ERROR: ' +
+      error.message,
+      true
+    );
+
+    boton.disabled = false;
+
+  }
+
+}
+
+
+
+/* =====================================================
+   CAMBIAR USUARIO
+   ===================================================== */
+
+function cambiarUsuario() {
+
+  if (
+    !confirm(
+      '¿Querés cambiar de usuario en este teléfono?'
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  localStorage.removeItem(
+    'controlLimpiezaEmail'
+  );
+
+
+  localStorage.removeItem(
+    'controlLimpiezaNombre'
+  );
+
+
+  emailActual = '';
+
+
+  document
+    .getElementById(
+      'pantallaApp'
+    )
+    .classList
+    .add('oculto');
+
+
+  document
+    .getElementById(
+      'pantallaLogin'
+    )
+    .classList
+    .remove('oculto');
+
+
+  document
+    .getElementById(
+      'email'
+    )
+    .value = '';
+
+
+  document
+    .getElementById(
+      'email'
+    )
+    .focus();
+
+}
+
+
+
+/* =====================================================
+   HORA
+   ===================================================== */
+
+function formatearHora(
+  timestamp
+) {
+
+  const fecha =
+    new Date(timestamp);
+
+
+  return fecha.toLocaleTimeString(
+    'es-AR',
+    {
+      hour:
+        '2-digit',
+
+      minute:
+        '2-digit',
+
+      second:
+        '2-digit'
+    }
+  );
+
+}
+
+
+
+/* =====================================================
+   HORAS TRABAJADAS
+   ===================================================== */
+
+function convertirHoras(
+  horas
+) {
+
+  const h =
+    Math.floor(horas);
+
+
+  const minutos =
+    Math.round(
+      (horas - h) * 60
+    );
+
+
+  if (h === 0) {
+
+    return
+      minutos +
+      ' minutos';
+
+  }
+
+
+  return
+    h +
+    ' h ' +
+    minutos +
+    ' min';
+
+}
+
+
+
+/* =====================================================
+   MENSAJE LOGIN
+   ===================================================== */
+
+function mostrarMensajeLogin(
+  texto,
+  error,
+  cargando
+) {
+
+  const elemento =
+    document.getElementById(
+      'mensajeLogin'
+    );
+
+
+  elemento.innerText =
+    texto;
+
+
+  if (error) {
+
+    elemento.className =
+      'mensaje mensaje-error';
+
+  }
+
+  else if (cargando) {
+
+    elemento.className =
+      'mensaje mensaje-cargando';
+
+  }
+
+  else {
+
+    elemento.className =
+      'mensaje mensaje-ok';
+
+  }
+
+}
+
+
+
+/* =====================================================
+   MENSAJE APP
+   ===================================================== */
+
+function mostrarMensajeApp(
+  texto,
+  error,
+  cargando
+) {
+
+  const elemento =
+    document.getElementById(
+      'mensajeApp'
+    );
+
+
+  elemento.innerText =
+    texto;
+
+
+  if (error) {
+
+    elemento.className =
+      'mensaje mensaje-error';
+
+  }
+
+  else if (cargando) {
+
+    elemento.className =
+      'mensaje mensaje-cargando';
+
+  }
+
+  else {
+
+    elemento.className =
+      'mensaje mensaje-ok';
 
   }
 
