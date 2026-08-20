@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<meta
+  name="theme-color"
+  content="#f4f6f8">
+
+<title>Administración - Control de Limpieza</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+
+  margin: 0;
+  padding: 0;
+
+  width: 100%;
+  min-height: 100%;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  background: #f4f6f8;
+
+  color: #222;
+
+}
+
+body {
+  min-height: 100vh;
+}
+
+.app {
+
+  width: 100%;
+
+  min-height: 100vh;
+
+  padding: 20px;
+
+}
+
+.contenido {
+
+  width: 100%;
+
+  max-width: 1100px;
+
+  margin: auto;
+
+}
+
+
+/* =====================================================
+   ENCABEZADO
+   ===================================================== */
+
+.encabezado {
+
+  text-align: center;
+
+  padding:
+    20px 0 25px;
+
+}
+
+.logo {
+
+  width: 70px;
+  height: 70px;
+
+  margin:
+    0 auto 14px;
+
+  border-radius: 22px;
+
+  background: white;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 36px;
+
+  box-shadow:
+    0 8px 25px rgba(0,0,0,.08);
+
+}
+
+.titulo {
+
+  margin: 0;
+
+  font-size:
+    clamp(28px, 6vw, 40px);
+
+  font-weight: 800;
+
+}
+
+.subtitulo {
+
+  margin-top: 7px;
+
+  color: #777;
+
+  font-size:
+    clamp(15px, 3vw, 19px);
+
+}
+
+
+/* =====================================================
+   CONEXIÓN
+   ===================================================== */
+
+.estadoConexion {
+
+  width: fit-content;
+
+  margin:
+    0 auto 20px;
+
+  padding:
+    8px 15px;
+
+  border-radius:
+    999px;
+
+  font-weight: 700;
+
+}
+
+.online {
+
+  background: #e5f7eb;
+
+  color: #20733f;
+
+}
+
+.offline {
+
+  background: #fdeaea;
+
+  color: #b52d2d;
+
+}
+
+
+/* =====================================================
+   TARJETAS
+   ===================================================== */
+
+.tarjeta {
+
+  background: white;
+
+  border-radius: 25px;
+
+  padding: 25px;
+
+  margin-bottom: 20px;
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,.07);
+
+}
+
+
+/* =====================================================
+   CABECERA ADMIN
+   ===================================================== */
+
+.admin-info {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  gap: 20px;
+
+  flex-wrap: wrap;
+
+}
+
+.admin-nombre {
+
+  font-size: 25px;
+
+  font-weight: 800;
+
+}
+
+.admin-email {
+
+  color: #888;
+
+  margin-top: 4px;
+
+}
+
+.btn {
+
+  border: 0;
+
+  border-radius: 15px;
+
+  padding:
+    15px 20px;
+
+  font-size: 16px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+}
+
+.btn-actualizar {
+
+  background: #252525;
+
+  color: white;
+
+}
+
+.btn-salir {
+
+  background: #f0f1f3;
+
+  color: #444;
+
+}
+
+
+/* =====================================================
+   RESUMEN
+   ===================================================== */
+
+.resumen {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 15px;
+
+}
+
+.resumen-box {
+
+  padding: 20px;
+
+  border-radius: 18px;
+
+  background: #f4f6f8;
+
+  text-align: center;
+
+}
+
+.resumen-numero {
+
+  font-size: 34px;
+
+  font-weight: 800;
+
+}
+
+.resumen-texto {
+
+  margin-top: 5px;
+
+  color: #777;
+
+  font-size: 15px;
+
+}
+
+
+/* =====================================================
+   PERSONAL
+   ===================================================== */
+
+.titulo-seccion {
+
+  font-size: 23px;
+
+  font-weight: 800;
+
+  margin-bottom: 18px;
+
+}
+
+.lista {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+
+}
+
+.persona {
+
+  border:
+    1px solid #e8eaed;
+
+  border-radius: 18px;
+
+  padding: 18px;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr auto;
+
+  gap: 15px;
+
+  align-items: center;
+
+}
+
+.persona-nombre {
+
+  font-size: 20px;
+
+  font-weight: 800;
+
+}
+
+.persona-email {
+
+  color: #888;
+
+  font-size: 14px;
+
+  margin-top: 5px;
+
+  word-break: break-word;
+
+}
+
+.persona-cliente {
+
+  margin-top: 8px;
+
+  font-size: 16px;
+
+}
+
+
+/* =====================================================
+   ESTADOS
+   ===================================================== */
+
+.estadoPersona {
+
+  padding:
+    9px 13px;
+
+  border-radius:
+    999px;
+
+  font-size: 14px;
+
+  font-weight: 800;
+
+  white-space: nowrap;
+
+}
+
+.estado-trabajando {
+
+  background: #e5f7eb;
+
+  color: #20733f;
+
+}
+
+.estado-libre {
+
+  background: #f0f2f4;
+
+  color: #666;
+
+}
+
+.estado-error {
+
+  background: #fdeaea;
+
+  color: #b52d2d;
+
+}
+
+
+/* =====================================================
+   MENSAJES
+   ===================================================== */
+
+.mensaje {
+
+  text-align: center;
+
+  margin-top: 15px;
+
+  min-height: 24px;
+
+  font-weight: 700;
+
+}
+
+.error {
+
+  color: #c62828;
+
+}
+
+.ok {
+
+  color: #237642;
+
+}
+
+
+/* =====================================================
+   OCULTO
+   ===================================================== */
+
+.oculto {
+
+  display: none !important;
+
+}
+
+
+/* =====================================================
+   CELULAR
+   ===================================================== */
+
+@media (max-width: 650px) {
+
+  .app {
+    padding: 14px;
+  }
+
+  .tarjeta {
+    padding: 20px;
+    border-radius: 21px;
+  }
+
+  .resumen {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .persona {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .estadoPersona {
+
+    width: fit-content;
+
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+<div class="contenido">
+
+
+<!-- ==================================================
+     ENCABEZADO
+     ================================================== -->
+
+<div class="encabezado">
+
+  <div class="logo">
+    🧹
+  </div>
+
+  <h1 class="titulo">
+    ADMINISTRACIÓN
+  </h1>
+
+  <div class="subtitulo">
+    Control de Limpieza
+  </div>
+
+</div>
+
+
+<!-- ==================================================
+     CONEXIÓN
+     ================================================== -->
+
+<div
+  id="estadoConexion"
+  class="estadoConexion online">
+
+  🟢 CONECTADO
+
+</div>
+
+
+<!-- ==================================================
+     INFORMACIÓN ADMIN
+     ================================================== -->
+
+<div class="tarjeta">
+
+  <div class="admin-info">
+
+    <div>
+
+      <div
+        id="adminNombre"
+        class="admin-nombre">
+      </div>
+
+      <div
+        id="adminEmail"
+        class="admin-email">
+      </div>
+
+    </div>
+
+
+    <div>
+
+      <button
+        class="btn btn-actualizar"
+        onclick="cargarDashboard()">
+
+        🔄 ACTUALIZAR
+
+      </button>
+
+      <button
+        class="btn btn-salir"
+        onclick="cerrarSesion()">
+
+        SALIR
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ==================================================
+     RESUMEN
+     ================================================== -->
+
+<div class="tarjeta">
+
+  <div class="titulo-seccion">
+    Resumen
+  </div>
+
+  <div class="resumen">
+
+    <div class="resumen-box">
+
+      <div
+        id="totalPersonal"
+        class="resumen-numero">
+        0
+      </div>
+
+      <div class="resumen-texto">
+        Personal
+      </div>
+
+    </div>
+
+
+    <div class="resumen-box">
+
+      <div
+        id="totalTrabajando"
+        class="resumen-numero">
+        0
+      </div>
+
+      <div class="resumen-texto">
+        Trabajando ahora
+      </div>
+
+    </div>
+
+
+    <div class="resumen-box">
+
+      <div
+        id="totalLibres"
+        class="resumen-numero">
+        0
+      </div>
+
+      <div class="resumen-texto">
+        Libres
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ==================================================
+     PERSONAL
+     ================================================== -->
+
+<div class="tarjeta">
+
+  <div class="titulo-seccion">
+    Estado del personal
+  </div>
+
+
+  <div
+    id="listaPersonal"
+    class="lista">
+
+    Cargando...
+
+  </div>
+
+
+  <div
+    id="mensaje"
+    class="mensaje">
+  </div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURACIÓN
+   ===================================================== */
+
+const API =
+  '/api';
+
+
+const STORAGE_EMAIL =
+  'controlLimpiezaEmail';
+
+
+const STORAGE_NOMBRE =
+  'controlLimpiezaNombre';
+
+
+const STORAGE_ROL =
+  'controlLimpiezaRol';
+
+
+let emailAdmin = '';
+
+let nombreAdmin = '';
+
+
+/* =====================================================
+   INICIO
+   ===================================================== */
+
+window.addEventListener(
+  'load',
+  iniciarAdmin
+);
+
+
+/* =====================================================
+   INTERNET
+   ===================================================== */
+
+window.addEventListener(
+  'online',
+  actualizarConexion
+);
+
+
+window.addEventListener(
+  'offline',
+  actualizarConexion
+);
+
+
+/* =====================================================
+   INICIAR
+   ===================================================== */
+
+function iniciarAdmin() {
+
+  actualizarConexion();
+
+
+  emailAdmin =
+    localStorage.getItem(
+      STORAGE_EMAIL
+    ) || '';
+
+
+  nombreAdmin =
+    localStorage.getItem(
+      STORAGE_NOMBRE
+    ) || '';
+
+
+  const rol =
+    localStorage.getItem(
+      STORAGE_ROL
+    ) || '';
+
+
+  /*
+   * =================================================
+   * SEGURIDAD
+   * =================================================
+   */
+
+  if (
+    !emailAdmin ||
+    !nombreAdmin ||
+    rol.toLowerCase() !== 'admin.'
+  ) {
+
+    alert(
+      'No tenés permisos de administrador.'
+    );
+
+
+    window.location.href =
+      './index.html';
+
+
+    return;
+
+  }
+
+
+  document
+    .getElementById(
+      'adminNombre'
+    )
+    .innerText =
+      '👋 ' +
+      nombreAdmin;
+
+
+  document
+    .getElementById(
+      'adminEmail'
+    )
+    .innerText =
+      emailAdmin;
+
+
+  cargarDashboard();
+
+}
+
+
+/* =====================================================
+   CONEXIÓN
+   ===================================================== */
+
+function actualizarConexion() {
+
+  const elemento =
+    document.getElementById(
+      'estadoConexion'
+    );
+
+
+  if (
+    navigator.onLine
+  ) {
+
+    elemento.className =
+      'estadoConexion online';
+
+    elemento.innerText =
+      '🟢 CONECTADO';
+
+  }
+
+  else {
+
+    elemento.className =
+      'estadoConexion offline';
+
+    elemento.innerText =
+      '🔴 SIN CONEXIÓN';
+
+  }
+
+}
+
+
+/* =====================================================
+   API
+   ===================================================== */
+
+async function llamarAPI(
+  accion,
+  datos = {}
+) {
+
+  if (
+    !navigator.onLine
+  ) {
+
+    throw new Error(
+      'SIN_CONEXION'
+    );
+
+  }
+
+
+  const respuesta =
+    await fetch(
+      API,
+      {
+
+        method:
+          'POST',
+
+        headers: {
+
+          'Content-Type':
+            'application/json'
+
+        },
+
+        body:
+          JSON.stringify({
+
+            accion:
+              accion,
+
+            ...datos
+
+          })
+
+      }
+    );
+
+
+  return await respuesta.json();
+
+}
+
+
+/* =====================================================
+   CARGAR DASHBOARD
+   ===================================================== */
+
+async function cargarDashboard() {
+
+  if (
+    !navigator.onLine
+  ) {
+
+    mostrarMensaje(
+      'El panel de administración necesita conexión a Internet.',
+      true
+    );
+
+    return;
+
+  }
+
+
+  mostrarMensaje(
+    'Cargando información...',
+    false
+  );
+
+
+  try {
+
+    const resultado =
+      await llamarAPI(
+        'obtenerDashboardAdmin',
+        {
+          email:
+            emailAdmin
+        }
+      );
+
+
+    if (
+      !resultado.ok
+    ) {
+
+      mostrarMensaje(
+        resultado.mensaje ||
+        'No se pudo cargar el panel.',
+        true
+      );
+
+
+      return;
+
+    }
+
+
+    mostrarResumen(
+      resultado
+    );
+
+
+    mostrarPersonal(
+      resultado.personal || []
+    );
+
+
+    mostrarMensaje(
+      '',
+      false
+    );
+
+  }
+
+  catch (error) {
+
+    mostrarMensaje(
+      'Error: ' +
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   RESUMEN
+   ===================================================== */
+
+function mostrarResumen(
+  resultado
+) {
+
+  document
+    .getElementById(
+      'totalPersonal'
+    )
+    .innerText =
+      resultado.totalPersonal || 0;
+
+
+  document
+    .getElementById(
+      'totalTrabajando'
+    )
+    .innerText =
+      resultado.totalTrabajando || 0;
+
+
+  document
+    .getElementById(
+      'totalLibres'
+    )
+    .innerText =
+      resultado.totalLibres || 0;
+
+}
+
+
+/* =====================================================
+   PERSONAL
+   ===================================================== */
+
+function mostrarPersonal(
+  personal
+) {
+
+  const contenedor =
+    document.getElementById(
+      'listaPersonal'
+    );
+
+
+  contenedor.innerHTML =
+    '';
+
+
+  if (
+    personal.length === 0
+  ) {
+
+    contenedor.innerHTML =
+      '<div style="text-align:center;color:#777;">' +
+      'No hay personal cargado.' +
+      '</div>';
+
+    return;
+
+  }
+
+
+  personal.forEach(
+    function(persona) {
+
+      const tarjeta =
+        document.createElement(
+          'div'
+        );
+
+
+      tarjeta.className =
+        'persona';
+
+
+      const izquierda =
+        document.createElement(
+          'div'
+        );
+
+
+      const nombre =
+        document.createElement(
+          'div'
+        );
+
+
+      nombre.className =
+        'persona-nombre';
+
+
+      nombre.innerText =
+        persona.nombre;
+
+
+      const email =
+        document.createElement(
+          'div'
+        );
+
+
+      email.className =
+        'persona-email';
+
+
+      email.innerText =
+        persona.email;
+
+
+      izquierda.appendChild(
+        nombre
+      );
+
+
+      izquierda.appendChild(
+        email
+      );
+
+
+      if (
+        persona.trabajando
+      ) {
+
+        const cliente =
+          document.createElement(
+            'div'
+          );
+
+
+        cliente.className =
+          'persona-cliente';
+
+
+        cliente.innerHTML =
+
+          '🧹 Cliente: <b>' +
+
+          escaparHTML(
+            persona.cliente
+          ) +
+
+          '</b>' +
+
+          '<br>' +
+
+          '🕐 Entrada: ' +
+
+          escaparHTML(
+            persona.entradaTexto
+          );
+
+
+        izquierda.appendChild(
+          cliente
+        );
+
+      }
+
+
+      const estado =
+        document.createElement(
+          'div'
+        );
+
+
+      estado.className =
+        'estadoPersona ' +
+
+        (
+          persona.trabajando
+            ? 'estado-trabajando'
+            : 'estado-libre'
+        );
+
+
+      estado.innerText =
+        persona.trabajando
+          ? '🟢 TRABAJANDO'
+          : '⚪ LIBRE';
+
+
+      tarjeta.appendChild(
+        izquierda
+      );
+
+
+      tarjeta.appendChild(
+        estado
+      );
+
+
+      contenedor.appendChild(
+        tarjeta
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   ESCAPAR HTML
+   ===================================================== */
+
+function escaparHTML(
+  texto
+) {
+
+  return String(
+    texto || ''
+  )
+    .replace(
+      /&/g,
+      '&amp;'
+    )
+    .replace(
+      /</g,
+      '&lt;'
+    )
+    .replace(
+      />/g,
+      '&gt;'
+    )
+    .replace(
+      /"/g,
+      '&quot;'
+    )
+    .replace(
+      /'/g,
+      '&#039;'
+    );
+
+}
+
+
+/* =====================================================
+   MENSAJE
+   ===================================================== */
+
+function mostrarMensaje(
+  texto,
+  error
+) {
+
+  const elemento =
+    document.getElementById(
+      'mensaje'
+    );
+
+
+  elemento.innerText =
+    texto;
+
+
+  elemento.className =
+    error
+      ? 'mensaje error'
+      : 'mensaje ok';
+
+}
+
+
+/* =====================================================
+   CERRAR SESIÓN
+   ===================================================== */
+
+function cerrarSesion() {
+
+  if (
+    !confirm(
+      '¿Querés salir de la administración?'
+    )
+  ) {
+
+    return;
+
+  }
+
+
+  localStorage.removeItem(
+    STORAGE_EMAIL
+  );
+
+
+  localStorage.removeItem(
+    STORAGE_NOMBRE
+  );
+
+
+  localStorage.removeItem(
+    STORAGE_ROL
+  );
+
+
+  window.location.href =
+    './index.html';
+
+}
+
+</script>
+
+</body>
+
+</html>
