@@ -1,9 +1,9 @@
-const CACHE_NAME = 'control-limpieza-v1';
+const CACHE_NAME = 'control-limpieza-v2';
 
 const ARCHIVOS = [
   './',
   './index.html',
-  './manifest.json',
+  './manifest.webmanifest',
   './sw.js'
 ];
 
@@ -25,6 +25,10 @@ self.addEventListener('install', event => {
       })
 
   );
+
+  /*
+   * Activa inmediatamente la nueva versión
+   */
 
   self.skipWaiting();
 
@@ -55,6 +59,11 @@ self.addEventListener('activate', event => {
 
   );
 
+  /*
+   * Toma control de la aplicación
+   * inmediatamente.
+   */
+
   self.clients.claim();
 
 });
@@ -71,11 +80,15 @@ self.addEventListener('fetch', event => {
 
 
   /*
+   * =================================================
    * API
+   * =================================================
    *
-   * NO intentamos cachearla.
-   * Si no hay Internet, el Index
-   * trabaja con la cola local.
+   * NO guardamos respuestas de la API.
+   *
+   * Si no hay Internet,
+   * Index.js utiliza localStorage
+   * y la cola offline.
    */
 
   if (
@@ -88,11 +101,36 @@ self.addEventListener('fetch', event => {
 
 
   /*
-   * ARCHIVOS DE LA APLICACIÓN
+   * =================================================
+   * SOLO PETICIONES GET
+   * =================================================
+   *
+   * POST, PUT, DELETE, etc.
+   * no se manejan desde la caché.
+   */
+
+  if (
+    request.method !== 'GET'
+  ) {
+
+    return;
+
+  }
+
+
+  /*
+   * =================================================
+   * APLICACIÓN
+   * =================================================
    *
    * Primero intenta Internet.
-   * Si no hay Internet,
-   * utiliza la copia guardada.
+   *
+   * Si funciona:
+   *   - devuelve la versión nueva
+   *   - guarda una copia en caché
+   *
+   * Si falla:
+   *   - utiliza la copia guardada.
    */
 
   event.respondWith(
@@ -101,19 +139,33 @@ self.addEventListener('fetch', event => {
 
       .then(response => {
 
-        const copia =
-          response.clone();
+        /*
+         * Si la respuesta es válida,
+         * guardamos una copia.
+         */
 
-        caches
-          .open(CACHE_NAME)
-          .then(cache => {
+        if (
+          response &&
+          response.status === 200
+        ) {
 
-            cache.put(
-              request,
-              copia
-            );
+          const copia =
+            response.clone();
 
-          });
+
+          caches
+            .open(CACHE_NAME)
+            .then(cache => {
+
+              cache.put(
+                request,
+                copia
+              );
+
+            });
+
+        }
+
 
         return response;
 
@@ -121,7 +173,35 @@ self.addEventListener('fetch', event => {
 
       .catch(() => {
 
-        return caches.match(request);
+        /*
+         * INTERNET NO DISPONIBLE
+         *
+         * Buscamos la copia local.
+         */
+
+        return caches
+          .match(request)
+          .then(response => {
+
+            if (response) {
+
+              return response;
+
+            }
+
+
+            /*
+             * Si no encontramos
+             * exactamente el archivo,
+             * intentamos devolver
+             * index.html.
+             */
+
+            return caches.match(
+              './index.html'
+            );
+
+          });
 
       })
 
