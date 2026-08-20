@@ -1086,7 +1086,8 @@ const API =
 const STORAGE_EMAIL =
   'controlLimpiezaEmail';
 
-
+const STORAGE_ROL =
+  'controlLimpiezaRol';
 const STORAGE_NOMBRE =
   'controlLimpiezaNombre';
 
@@ -1597,7 +1598,10 @@ async function ingresar() {
       STORAGE_EMAIL,
       resultado.email
     );
-
+localStorage.setItem(
+  STORAGE_ROL,
+  resultado.rol || ''
+);
 
     localStorage.setItem(
       STORAGE_NOMBRE,
@@ -1611,7 +1615,18 @@ async function ingresar() {
 
     nombreActual =
       resultado.nombre;
+if (
+  String(resultado.rol || '')
+    .trim()
+    .toLowerCase() === 'admin.'
+) {
 
+  window.location.href =
+    './admin.html';
+
+  return;
+
+}
 
     mostrarAplicacion(
       resultado.email,
