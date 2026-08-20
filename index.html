@@ -2,13 +2,7 @@
 <html lang="es">
 
 <head>
-<link rel="manifest" href="./manifest.json">
 
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-<link rel="apple-touch-icon" href="./icon-192.png">
 <meta charset="UTF-8">
 
 <meta
@@ -27,6 +21,10 @@
   name="apple-mobile-web-app-status-bar-style"
   content="default">
 
+<link
+  rel="manifest"
+  href="/manifest.webmanifest">
+
 <title>Control de Limpieza</title>
 
 
@@ -43,16 +41,22 @@
 
 html,
 body {
+
   margin: 0;
   padding: 0;
+
   width: 100%;
   min-height: 100%;
+
   font-family:
     Arial,
     Helvetica,
     sans-serif;
+
   background: #f4f6f8;
+
   color: #222;
+
 }
 
 body {
@@ -60,15 +64,14 @@ body {
 }
 
 
-/* =====================================================
-   CONTENEDOR PRINCIPAL
-   ===================================================== */
-
 .app {
+
   width: 100%;
+
   min-height: 100dvh;
 
   display: flex;
+
   justify-content: center;
 
   padding:
@@ -76,12 +79,16 @@ body {
     max(16px, env(safe-area-inset-right))
     max(20px, env(safe-area-inset-bottom))
     max(16px, env(safe-area-inset-left));
+
 }
 
 
 .contenido {
+
   width: 100%;
+
   max-width: 620px;
+
 }
 
 
@@ -90,54 +97,126 @@ body {
    ===================================================== */
 
 .encabezado {
+
   text-align: center;
-  padding: 18px 0 22px;
+
+  padding:
+    18px 0 22px;
+
 }
 
+
 .logo {
+
   width: 72px;
   height: 72px;
 
-  margin: 0 auto 15px;
+  margin:
+    0 auto 15px;
 
   border-radius: 22px;
 
   background: white;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   font-size: 38px;
 
   box-shadow:
     0 8px 25px rgba(0,0,0,.08);
+
 }
 
+
 .titulo {
+
   margin: 0;
 
-  font-size: clamp(
-    25px,
-    7vw,
-    36px
-  );
+  font-size:
+    clamp(25px, 7vw, 36px);
 
   font-weight: 800;
 
   letter-spacing: -.5px;
+
 }
 
+
 .subtitulo {
+
   margin-top: 7px;
 
-  font-size: clamp(
-    15px,
-    4vw,
-    19px
-  );
+  font-size:
+    clamp(15px, 4vw, 19px);
 
   color: #777;
+
+}
+
+
+/* =====================================================
+   CONEXIÓN
+   ===================================================== */
+
+.estadoConexion {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 8px;
+
+  width: fit-content;
+
+  margin:
+    0 auto 18px;
+
+  padding:
+    8px 14px;
+
+  border-radius: 999px;
+
+  font-size:
+    clamp(13px, 3.5vw, 16px);
+
+  font-weight: 700;
+
+  transition:
+    all .2s ease;
+
+}
+
+
+.estadoConexion.online {
+
+  background: #e5f7eb;
+
+  color: #20733f;
+
+}
+
+
+.estadoConexion.offline {
+
+  background: #fdeaea;
+
+  color: #b52d2d;
+
+}
+
+
+.estadoConexion.pendiente {
+
+  background: #fff4d8;
+
+  color: #9a6b00;
+
 }
 
 
@@ -146,6 +225,7 @@ body {
    ===================================================== */
 
 .tarjeta {
+
   width: 100%;
 
   background: white;
@@ -157,6 +237,7 @@ body {
 
   box-shadow:
     0 12px 40px rgba(0,0,0,.08);
+
 }
 
 
@@ -165,6 +246,7 @@ body {
    ===================================================== */
 
 .login-titulo {
+
   text-align: center;
 
   font-size:
@@ -173,9 +255,12 @@ body {
   font-weight: 700;
 
   margin-bottom: 25px;
+
 }
 
+
 label {
+
   display: block;
 
   font-size:
@@ -184,7 +269,9 @@ label {
   font-weight: 700;
 
   margin-bottom: 10px;
+
 }
+
 
 input,
 select {
@@ -212,12 +299,17 @@ select {
   margin-bottom: 20px;
 
   color: #222;
+
 }
+
 
 input:focus,
 select:focus {
+
   border-color: #444;
+
   background: white;
+
 }
 
 
@@ -250,15 +342,25 @@ button {
   transition:
     transform .08s ease,
     opacity .2s ease;
+
 }
+
 
 button:active {
-  transform: scale(.98);
+
+  transform:
+    scale(.98);
+
 }
 
+
 button:disabled {
+
   opacity: .45;
-  cursor: not-allowed;
+
+  cursor:
+    not-allowed;
+
 }
 
 
@@ -267,8 +369,13 @@ button:disabled {
    ===================================================== */
 
 .btn-continuar {
-  background: #252525;
-  color: white;
+
+  background:
+    #252525;
+
+  color:
+    white;
+
 }
 
 
@@ -278,12 +385,16 @@ button:disabled {
 
 .btn-entrada {
 
-  background: #27ae60;
+  background:
+    #27ae60;
 
-  color: white;
+  color:
+    white;
 
   box-shadow:
-    0 8px 20px rgba(39,174,96,.25);
+    0 8px 20px
+    rgba(39,174,96,.25);
+
 }
 
 
@@ -293,12 +404,16 @@ button:disabled {
 
 .btn-salida {
 
-  background: #d94b4b;
+  background:
+    #d94b4b;
 
-  color: white;
+  color:
+    white;
 
   box-shadow:
-    0 8px 20px rgba(217,75,75,.22);
+    0 8px 20px
+    rgba(217,75,75,.22);
+
 }
 
 
@@ -308,85 +423,128 @@ button:disabled {
 
 .bienvenida {
 
-  text-align: center;
+  text-align:
+    center;
 
-  margin-bottom: 28px;
+  margin-bottom:
+    28px;
+
 }
+
 
 .hola {
 
   font-size:
     clamp(22px, 6vw, 30px);
 
-  font-weight: 700;
+  font-weight:
+    700;
 
-  line-height: 1.2;
+  line-height:
+    1.2;
+
 }
+
 
 .nombre {
 
   font-size:
     clamp(30px, 8vw, 42px);
 
-  font-weight: 800;
+  font-weight:
+    800;
 
-  margin-top: 5px;
+  margin-top:
+    5px;
+
 }
+
 
 .email {
 
-  margin-top: 8px;
+  margin-top:
+    8px;
 
-  color: #888;
+  color:
+    #888;
 
   font-size:
     clamp(13px, 3.5vw, 16px);
 
-  word-break: break-word;
+  word-break:
+    break-word;
+
 }
 
 
 /* =====================================================
-   ESTADO
+   ESTADO TRABAJO
    ===================================================== */
 
 .estado {
 
-  margin-top: 25px;
+  margin-top:
+    25px;
 
   padding:
     clamp(20px, 5vw, 28px);
 
-  border-radius: 20px;
+  border-radius:
+    20px;
 
-  text-align: center;
+  text-align:
+    center;
 
   font-size:
     clamp(17px, 4.5vw, 21px);
 
-  line-height: 1.65;
+  line-height:
+    1.65;
+
 }
+
 
 .estado-libre {
 
-  background: #f0f2f4;
+  background:
+    #f0f2f4;
 
-  color: #666;
+  color:
+    #666;
+
 }
+
 
 .estado-trabajando {
 
-  background: #e5f7eb;
+  background:
+    #e5f7eb;
 
-  color: #20733f;
+  color:
+    #20733f;
+
 }
+
+
+.estado-offline {
+
+  background:
+    #fff4d8;
+
+  color:
+    #8b6500;
+
+}
+
 
 .estado-titulo {
 
   font-size:
     clamp(20px, 5vw, 25px);
 
-  font-weight: 800;
+  font-weight:
+    800;
+
 }
 
 
@@ -396,30 +554,103 @@ button:disabled {
 
 .mensaje {
 
-  min-height: 28px;
+  min-height:
+    28px;
 
-  text-align: center;
+  text-align:
+    center;
 
-  margin-top: 18px;
+  margin-top:
+    18px;
 
   font-size:
     clamp(16px, 4vw, 19px);
 
-  font-weight: 700;
+  font-weight:
+    700;
 
-  line-height: 1.4;
+  line-height:
+    1.4;
+
 }
+
 
 .mensaje-error {
-  color: #c62828;
+
+  color:
+    #c62828;
+
 }
+
 
 .mensaje-ok {
-  color: #237642;
+
+  color:
+    #237642;
+
 }
 
+
 .mensaje-cargando {
-  color: #777;
+
+  color:
+    #777;
+
+}
+
+
+.mensaje-offline {
+
+  color:
+    #9a6b00;
+
+}
+
+
+/* =====================================================
+   PENDIENTES
+   ===================================================== */
+
+.sincronizacion {
+
+  display:
+    none;
+
+  margin-top:
+    16px;
+
+  padding:
+    14px 16px;
+
+  border-radius:
+    15px;
+
+  background:
+    #fff4d8;
+
+  color:
+    #806000;
+
+  text-align:
+    center;
+
+  font-size:
+    15px;
+
+  font-weight:
+    700;
+
+  line-height:
+    1.4;
+
+}
+
+
+.sincronizacion.visible {
+
+  display:
+    block;
+
 }
 
 
@@ -429,12 +660,15 @@ button:disabled {
 
 .separador {
 
-  height: 1px;
+  height:
+    1px;
 
-  background: #ececec;
+  background:
+    #ececec;
 
   margin:
     28px 0 20px;
+
 }
 
 
@@ -444,16 +678,21 @@ button:disabled {
 
 .btn-cambiar {
 
-  min-height: 58px;
+  min-height:
+    58px;
 
-  background: #f0f1f3;
+  background:
+    #f0f1f3;
 
-  color: #444;
+  color:
+    #444;
 
   font-size:
     clamp(16px, 4vw, 19px);
 
-  box-shadow: none;
+  box-shadow:
+    none;
+
 }
 
 
@@ -462,56 +701,80 @@ button:disabled {
    ===================================================== */
 
 .oculto {
-  display: none !important;
+
+  display:
+    none !important;
+
 }
 
 
 /* =====================================================
-   PANTALLAS MUY GRANDES
+   GRANDES
    ===================================================== */
 
 @media (min-width: 700px) {
 
   .app {
-    align-items: center;
+
+    align-items:
+      center;
+
   }
 
 }
 
 
 /* =====================================================
-   CELULAR VERTICAL
+   CELULAR
    ===================================================== */
 
 @media (max-width: 500px) {
 
   .app {
+
     padding:
       max(14px, env(safe-area-inset-top))
       14px
       max(14px, env(safe-area-inset-bottom))
       14px;
+
   }
+
 
   .encabezado {
-    padding-top: 8px;
+
+    padding-top:
+      8px;
+
   }
+
 
   .logo {
-    width: 64px;
-    height: 64px;
-    font-size: 34px;
+
+    width:
+      64px;
+
+    height:
+      64px;
+
+    font-size:
+      34px;
+
   }
 
+
   .tarjeta {
-    border-radius: 24px;
+
+    border-radius:
+      24px;
+
   }
 
 }
 
 
 /* =====================================================
-   CELULAR MUY ALTO / VERTICAL
+   CELULAR ALTO
    ===================================================== */
 
 @media (
@@ -521,16 +784,29 @@ button:disabled {
 ) {
 
   .app {
-    align-items: flex-start;
+
+    align-items:
+      flex-start;
+
   }
+
 
   .encabezado {
-    padding-top: 12px;
-    padding-bottom: 18px;
+
+    padding-top:
+      12px;
+
+    padding-bottom:
+      18px;
+
   }
 
+
   .tarjeta {
-    padding: 28px 22px;
+
+    padding:
+      28px 22px;
+
   }
 
 }
@@ -547,28 +823,51 @@ button:disabled {
 ) {
 
   .app {
-    padding: 14px;
+
+    padding:
+      14px;
+
   }
+
 
   .encabezado {
-    padding: 5px 0 10px;
+
+    padding:
+      5px 0 10px;
+
   }
+
 
   .logo {
-    display: none;
+
+    display:
+      none;
+
   }
 
+
   .tarjeta {
-    padding: 20px;
+
+    padding:
+      20px;
+
   }
+
 
   input,
   select {
-    height: 58px;
+
+    height:
+      58px;
+
   }
 
+
   button {
-    min-height: 62px;
+
+    min-height:
+      62px;
+
   }
 
 }
@@ -603,6 +902,19 @@ button:disabled {
   <div class="subtitulo">
     Registro de entrada y salida
   </div>
+
+</div>
+
+
+<!-- ==================================================
+     ESTADO INTERNET
+     ================================================== -->
+
+<div
+  id="estadoConexion"
+  class="estadoConexion online">
+
+  🟢 CONECTADO
 
 </div>
 
@@ -647,6 +959,7 @@ button:disabled {
     id="mensajeLogin"
     class="mensaje">
   </div>
+
 
 </div>
 
@@ -735,14 +1048,27 @@ button:disabled {
   </div>
 
 
+  <!-- MENSAJE -->
+
   <div
     id="mensajeApp"
     class="mensaje">
   </div>
 
 
+  <!-- SINCRONIZACIÓN -->
+
+  <div
+    id="sincronizacion"
+    class="sincronizacion">
+
+  </div>
+
+
   <div class="separador"></div>
 
+
+  <!-- CAMBIAR USUARIO -->
 
   <button
     class="btn-cambiar"
@@ -772,8 +1098,35 @@ const API =
   '/api';
 
 
+const STORAGE_EMAIL =
+  'controlLimpiezaEmail';
+
+
+const STORAGE_NOMBRE =
+  'controlLimpiezaNombre';
+
+
+const STORAGE_CLIENTES =
+  'controlLimpiezaClientes';
+
+
+const STORAGE_COLA =
+  'controlLimpiezaColaOffline';
+
+
 let emailActual = '';
 
+let nombreActual = '';
+
+let clientesActuales = [];
+
+
+/*
+ * Evita ejecutar dos sincronizaciones
+ * al mismo tiempo.
+ */
+
+let sincronizando = false;
 
 
 /* =====================================================
@@ -786,16 +1139,75 @@ window.addEventListener(
 );
 
 
-function iniciar() {
+/* =====================================================
+   DETECTAR INTERNET
+   ===================================================== */
+
+window.addEventListener(
+  'online',
+  function() {
+
+    actualizarIndicadorConexion();
+
+    mostrarMensajeApp(
+      '✓ Volvió la conexión.',
+      false
+    );
+
+    sincronizarPendientes();
+
+    actualizarEstado();
+
+  }
+);
+
+
+window.addEventListener(
+  'offline',
+  function() {
+
+    actualizarIndicadorConexion();
+
+    mostrarMensajeApp(
+      'Sin conexión. La aplicación seguirá funcionando.',
+      false,
+      false,
+      true
+    );
+
+    actualizarEstadoOffline();
+
+  }
+);
+
+
+/* =====================================================
+   INICIO
+   ===================================================== */
+
+async function iniciar() {
+
+  actualizarIndicadorConexion();
+
+  /*
+   * Registrar Service Worker.
+   *
+   * Esto permitirá que la aplicación
+   * pueda abrirse sin Internet.
+   */
+
+  registrarServiceWorker();
+
 
   const email =
     localStorage.getItem(
-      'controlLimpiezaEmail'
+      STORAGE_EMAIL
     );
+
 
   const nombre =
     localStorage.getItem(
-      'controlLimpiezaNombre'
+      STORAGE_NOMBRE
     );
 
 
@@ -807,19 +1219,122 @@ function iniciar() {
     emailActual =
       email;
 
+    nombreActual =
+      nombre;
+
+
+    cargarClientesLocales();
+
+
     mostrarAplicacion(
       email,
       nombre
     );
 
-    cargarClientes();
 
-    actualizarEstado();
+    if (
+      navigator.onLine
+    ) {
+
+      cargarClientes();
+
+      actualizarEstado();
+
+    }
+
+    else {
+
+      actualizarEstadoOffline();
+
+    }
+
+
+    actualizarIndicadorPendientes();
 
   }
 
 }
 
+
+/* =====================================================
+   SERVICE WORKER
+   ===================================================== */
+
+function registrarServiceWorker() {
+
+  if (
+    'serviceWorker' in navigator
+  ) {
+
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then(
+        function() {
+
+          console.log(
+            'Service Worker registrado.'
+          );
+
+        }
+      )
+      .catch(
+        function(error) {
+
+          console.log(
+            'No se pudo registrar Service Worker:',
+            error
+          );
+
+        }
+      );
+
+  }
+
+}
+
+
+/* =====================================================
+   INDICADOR INTERNET
+   ===================================================== */
+
+function actualizarIndicadorConexion() {
+
+  const indicador =
+    document.getElementById(
+      'estadoConexion'
+    );
+
+
+  if (!indicador) {
+    return;
+  }
+
+
+  if (
+    navigator.onLine
+  ) {
+
+    indicador.className =
+      'estadoConexion online';
+
+
+    indicador.innerText =
+      '🟢 CONECTADO';
+
+  }
+
+  else {
+
+    indicador.className =
+      'estadoConexion offline';
+
+
+    indicador.innerText =
+      '🔴 SIN CONEXIÓN';
+
+  }
+
+}
 
 
 /* =====================================================
@@ -831,15 +1346,30 @@ async function llamarAPI(
   datos = {}
 ) {
 
+  if (
+    !navigator.onLine
+  ) {
+
+    throw new Error(
+      'SIN_CONEXION'
+    );
+
+  }
+
+
   const respuesta =
     await fetch(
       API,
       {
-        method: 'POST',
+
+        method:
+          'POST',
 
         headers: {
+
           'Content-Type':
             'application/json'
+
         },
 
         body:
@@ -860,17 +1390,9 @@ async function llamarAPI(
     await respuesta.json();
 
 
-  console.log(
-    'RESPUESTA API:',
-    accion,
-    resultado
-  );
-
-
   return resultado;
 
 }
-
 
 
 /* =====================================================
@@ -903,13 +1425,76 @@ async function ingresar() {
   }
 
 
+  /*
+   * Si no hay Internet,
+   * intentamos utilizar datos
+   * guardados previamente.
+   */
+
+  if (
+    !navigator.onLine
+  ) {
+
+    const emailGuardado =
+      localStorage.getItem(
+        STORAGE_EMAIL
+      );
+
+
+    const nombreGuardado =
+      localStorage.getItem(
+        STORAGE_NOMBRE
+      );
+
+
+    if (
+      emailGuardado === email &&
+      nombreGuardado
+    ) {
+
+      emailActual =
+        emailGuardado;
+
+      nombreActual =
+        nombreGuardado;
+
+
+      cargarClientesLocales();
+
+
+      mostrarAplicacion(
+        emailActual,
+        nombreActual
+      );
+
+
+      actualizarEstadoOffline();
+
+
+      return;
+
+    }
+
+
+    mostrarMensajeLogin(
+      'Sin conexión. Este teléfono debe haber ingresado previamente con este usuario.',
+      true
+    );
+
+
+    return;
+
+  }
+
+
   const boton =
     document.getElementById(
       'btnContinuar'
     );
 
 
-  boton.disabled = true;
+  boton.disabled =
+    true;
 
 
   mostrarMensajeLogin(
@@ -925,7 +1510,8 @@ async function ingresar() {
       await llamarAPI(
         'verificarUsuario',
         {
-          email: email
+          email:
+            email
         }
       );
 
@@ -937,7 +1523,10 @@ async function ingresar() {
         true
       );
 
-      boton.disabled = false;
+
+      boton.disabled =
+        false;
+
 
       return;
 
@@ -945,13 +1534,13 @@ async function ingresar() {
 
 
     localStorage.setItem(
-      'controlLimpiezaEmail',
+      STORAGE_EMAIL,
       resultado.email
     );
 
 
     localStorage.setItem(
-      'controlLimpiezaNombre',
+      STORAGE_NOMBRE,
       resultado.nombre
     );
 
@@ -960,15 +1549,19 @@ async function ingresar() {
       resultado.email;
 
 
+    nombreActual =
+      resultado.nombre;
+
+
     mostrarAplicacion(
       resultado.email,
       resultado.nombre
     );
 
 
-    cargarClientes();
+    await cargarClientes();
 
-    actualizarEstado();
+    await actualizarEstado();
 
 
   }
@@ -984,10 +1577,10 @@ async function ingresar() {
   }
 
 
-  boton.disabled = false;
+  boton.disabled =
+    false;
 
 }
-
 
 
 /* =====================================================
@@ -1030,8 +1623,10 @@ function mostrarAplicacion(
     .innerText =
       email;
 
-}
 
+  actualizarIndicadorConexion();
+
+}
 
 
 /* =====================================================
@@ -1039,6 +1634,22 @@ function mostrarAplicacion(
    ===================================================== */
 
 async function cargarClientes() {
+
+  /*
+   * Si no hay Internet,
+   * usamos los clientes guardados.
+   */
+
+  if (
+    !navigator.onLine
+  ) {
+
+    cargarClientesLocales();
+
+    return;
+
+  }
+
 
   mostrarMensajeApp(
     'Cargando clientes...',
@@ -1061,73 +1672,56 @@ async function cargarClientes() {
 
     if (!resultado.ok) {
 
+      /*
+       * Si falla la API,
+       * intentamos clientes locales.
+       */
+
+      cargarClientesLocales();
+
+
       mostrarMensajeApp(
         resultado.mensaje,
         true
       );
+
 
       return;
 
     }
 
 
-    const select =
-      document.getElementById(
-        'cliente'
-      );
+    clientesActuales =
+      resultado.clientes || [];
 
 
-    select.innerHTML = '';
+    /*
+     * GUARDAR CLIENTES
+     * PARA UTILIZAR OFFLINE.
+     */
 
-
-    const primera =
-      document.createElement(
-        'option'
-      );
-
-
-    primera.value = '';
-
-    primera.textContent =
-      'Seleccionar cliente';
-
-
-    select.appendChild(
-      primera
+    localStorage.setItem(
+      STORAGE_CLIENTES,
+      JSON.stringify(
+        clientesActuales
+      )
     );
 
 
-    resultado.clientes
-      .forEach(
-        function(nombreCliente) {
-
-          const opcion =
-            document.createElement(
-              'option'
-            );
-
-          opcion.value =
-            nombreCliente;
-
-          opcion.textContent =
-            nombreCliente;
-
-          select.appendChild(
-            opcion
-          );
-
-        }
-      );
+    mostrarClientesEnSelect(
+      clientesActuales
+    );
 
 
     if (
-      resultado.clientes.length === 0
+      clientesActuales.length === 0
     ) {
 
       mostrarMensajeApp(
         'No hay clientes asignados.',
         true
       );
+
 
       return;
 
@@ -1140,14 +1734,93 @@ async function cargarClientes() {
     );
 
 
+    actualizarIndicadorPendientes();
+
   }
 
   catch (error) {
 
-    mostrarMensajeApp(
-      'Error al cargar clientes: ' +
-      error.message,
-      true
+    cargarClientesLocales();
+
+
+    if (
+      error.message ===
+      'SIN_CONEXION'
+    ) {
+
+      mostrarMensajeApp(
+        'Sin conexión. Usando clientes guardados.',
+        false,
+        false,
+        true
+      );
+
+    }
+
+    else {
+
+      mostrarMensajeApp(
+        'Error al cargar clientes: ' +
+        error.message,
+        true
+      );
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   CLIENTES LOCALES
+   ===================================================== */
+
+function cargarClientesLocales() {
+
+  try {
+
+    const datos =
+      localStorage.getItem(
+        STORAGE_CLIENTES
+      );
+
+
+    if (!datos) {
+
+      return;
+
+    }
+
+
+    const clientes =
+      JSON.parse(datos);
+
+
+    if (
+      !Array.isArray(clientes)
+    ) {
+
+      return;
+
+    }
+
+
+    clientesActuales =
+      clientes;
+
+
+    mostrarClientesEnSelect(
+      clientes
+    );
+
+  }
+
+  catch (error) {
+
+    console.log(
+      'Error leyendo clientes locales:',
+      error
     );
 
   }
@@ -1155,12 +1828,95 @@ async function cargarClientes() {
 }
 
 
+/* =====================================================
+   MOSTRAR CLIENTES
+   ===================================================== */
+
+function mostrarClientesEnSelect(
+  clientes
+) {
+
+  const select =
+    document.getElementById(
+      'cliente'
+    );
+
+
+  if (!select) {
+    return;
+  }
+
+
+  select.innerHTML =
+    '';
+
+
+  const primera =
+    document.createElement(
+      'option'
+    );
+
+
+  primera.value =
+    '';
+
+
+  primera.textContent =
+    'Seleccionar cliente';
+
+
+  select.appendChild(
+    primera
+  );
+
+
+  clientes.forEach(
+    function(nombreCliente) {
+
+      const opcion =
+        document.createElement(
+          'option'
+        );
+
+
+      opcion.value =
+        nombreCliente;
+
+
+      opcion.textContent =
+        nombreCliente;
+
+
+      select.appendChild(
+        opcion
+      );
+
+    }
+  );
+
+}
+
 
 /* =====================================================
    ESTADO
    ===================================================== */
 
 async function actualizarEstado() {
+
+  /*
+   * OFFLINE
+   */
+
+  if (
+    !navigator.onLine
+  ) {
+
+    actualizarEstadoOffline();
+
+    return;
+
+  }
+
 
   try {
 
@@ -1181,121 +1937,212 @@ async function actualizarEstado() {
         true
       );
 
+
       return;
 
     }
 
 
-    const estado =
-      document.getElementById(
-        'estado'
-      );
-
-
-    const btnEntrada =
-      document.getElementById(
-        'btnEntrada'
-      );
-
-
-    const btnSalida =
-      document.getElementById(
-        'btnSalida'
-      );
-
-
-    const cliente =
-      document.getElementById(
-        'cliente'
-      );
-
-
-    if (
-      resultado.trabajando
-    ) {
-
-      estado.className =
-        'estado estado-trabajando';
-
-
-      estado.innerHTML =
-
-        '🟢 ' +
-
-        '<span class="estado-titulo">' +
-        'ESTÁS TRABAJANDO' +
-        '</span>' +
-
-        '<br><br>' +
-
-        'Cliente: <b>' +
-        resultado.cliente +
-        '</b>' +
-
-        '<br>' +
-
-        'Entrada: ' +
-        formatearHora(
-          resultado.entrada
-        );
-
-
-      btnEntrada.disabled =
-        true;
-
-
-      btnSalida.disabled =
-        false;
-
-
-      cliente.disabled =
-        true;
-
-    }
-
-    else {
-
-      estado.className =
-        'estado estado-libre';
-
-
-      estado.innerHTML =
-
-        '⚪ ' +
-
-        '<span class="estado-titulo">' +
-        'NO ESTÁS TRABAJANDO' +
-        '</span>';
-
-
-      btnEntrada.disabled =
-        false;
-
-
-      btnSalida.disabled =
-        true;
-
-
-      cliente.disabled =
-        false;
-
-    }
-
+    mostrarEstadoServidor(
+      resultado
+    );
 
   }
 
   catch (error) {
 
-    mostrarMensajeApp(
-      'Error al consultar estado: ' +
-      error.message,
-      true
-    );
+    actualizarEstadoOffline();
 
   }
 
 }
 
+
+/* =====================================================
+   ESTADO OFFLINE
+   ===================================================== */
+
+function actualizarEstadoOffline() {
+
+  const estado =
+    document.getElementById(
+      'estado'
+    );
+
+
+  const btnEntrada =
+    document.getElementById(
+      'btnEntrada'
+    );
+
+
+  const btnSalida =
+    document.getElementById(
+      'btnSalida'
+    );
+
+
+  const cliente =
+    document.getElementById(
+      'cliente'
+    );
+
+
+  /*
+   * Por ahora no inventamos
+   * el estado del servidor.
+   *
+   * Mostramos claramente que
+   * estamos sin conexión.
+   */
+
+  estado.className =
+    'estado estado-offline';
+
+
+  estado.innerHTML =
+
+    '🔴 ' +
+
+    '<span class="estado-titulo">' +
+
+    'SIN CONEXIÓN' +
+
+    '</span>' +
+
+    '<br><br>' +
+
+    'Las operaciones quedarán pendientes de sincronización.';
+
+
+  btnEntrada.disabled =
+    false;
+
+
+  btnSalida.disabled =
+    true;
+
+
+  cliente.disabled =
+    false;
+
+
+  actualizarIndicadorPendientes();
+
+}
+
+
+/* =====================================================
+   MOSTRAR ESTADO DEL SERVIDOR
+   ===================================================== */
+
+function mostrarEstadoServidor(
+  resultado
+) {
+
+  const estado =
+    document.getElementById(
+      'estado'
+    );
+
+
+  const btnEntrada =
+    document.getElementById(
+      'btnEntrada'
+    );
+
+
+  const btnSalida =
+    document.getElementById(
+      'btnSalida'
+    );
+
+
+  const cliente =
+    document.getElementById(
+      'cliente'
+    );
+
+
+  if (
+    resultado.trabajando
+  ) {
+
+    estado.className =
+      'estado estado-trabajando';
+
+
+    estado.innerHTML =
+
+      '🟢 ' +
+
+      '<span class="estado-titulo">' +
+
+      'ESTÁS TRABAJANDO' +
+
+      '</span>' +
+
+      '<br><br>' +
+
+      'Cliente: <b>' +
+
+      resultado.cliente +
+
+      '</b>' +
+
+      '<br>' +
+
+      'Entrada: ' +
+
+      formatearHora(
+        resultado.entrada
+      );
+
+
+    btnEntrada.disabled =
+      true;
+
+
+    btnSalida.disabled =
+      false;
+
+
+    cliente.disabled =
+      true;
+
+  }
+
+  else {
+
+    estado.className =
+      'estado estado-libre';
+
+
+    estado.innerHTML =
+
+      '⚪ ' +
+
+      '<span class="estado-titulo">' +
+
+      'NO ESTÁS TRABAJANDO' +
+
+      '</span>';
+
+
+    btnEntrada.disabled =
+      false;
+
+
+    btnSalida.disabled =
+      true;
+
+
+    cliente.disabled =
+      false;
+
+  }
+
+}
 
 
 /* =====================================================
@@ -1321,6 +2168,7 @@ async function registrarEntrada() {
       true
     );
 
+
     return;
 
   }
@@ -1332,8 +2180,114 @@ async function registrarEntrada() {
     );
 
 
-  boton.disabled = true;
+  boton.disabled =
+    true;
 
+
+  /*
+   * =================================================
+   * SIN INTERNET
+   * =================================================
+   */
+
+  if (
+    !navigator.onLine
+  ) {
+
+    const ahora =
+      Date.now();
+
+
+    /*
+     * Guardamos la operación
+     * completa localmente.
+     */
+
+    agregarOperacionOffline({
+
+      tipo:
+        'entrada',
+
+      email:
+        emailActual,
+
+      cliente:
+        cliente,
+
+      timestamp:
+        ahora
+
+    });
+
+
+    mostrarMensajeApp(
+      '✓ Entrada guardada. Se sincronizará cuando vuelva Internet.',
+      false
+    );
+
+
+    /*
+     * Mostramos estado local.
+     */
+
+    const estado =
+      document.getElementById(
+        'estado'
+      );
+
+
+    estado.className =
+      'estado estado-offline';
+
+
+    estado.innerHTML =
+
+      '🟡 ' +
+
+      '<span class="estado-titulo">' +
+
+      'ENTRADA PENDIENTE' +
+
+      '</span>' +
+
+      '<br><br>' +
+
+      'Cliente: <b>' +
+
+      cliente +
+
+      '</b>';
+
+
+    select.disabled =
+      true;
+
+
+    boton.disabled =
+      true;
+
+
+    document
+      .getElementById(
+        'btnSalida'
+      )
+      .disabled =
+      true;
+
+
+    actualizarIndicadorPendientes();
+
+
+    return;
+
+  }
+
+
+  /*
+   * =================================================
+   * CON INTERNET
+   * =================================================
+   */
 
   mostrarMensajeApp(
     'Registrando entrada...',
@@ -1348,11 +2302,13 @@ async function registrarEntrada() {
       await llamarAPI(
         'registrarEntrada',
         {
+
           email:
             emailActual,
 
           cliente:
             cliente
+
         }
       );
 
@@ -1364,7 +2320,9 @@ async function registrarEntrada() {
         true
       );
 
+
       await actualizarEstado();
+
 
       return;
 
@@ -1379,23 +2337,65 @@ async function registrarEntrada() {
 
     await actualizarEstado();
 
-
   }
 
   catch (error) {
 
-    mostrarMensajeApp(
-      'ERROR: ' +
-      error.message,
-      true
-    );
+    /*
+     * Si la conexión desapareció
+     * durante la operación,
+     * guardamos localmente.
+     */
 
-    boton.disabled = false;
+    if (
+      error.message ===
+      'SIN_CONEXION'
+    ) {
+
+      agregarOperacionOffline({
+
+        tipo:
+          'entrada',
+
+        email:
+          emailActual,
+
+        cliente:
+          cliente,
+
+        timestamp:
+          Date.now()
+
+      });
+
+
+      mostrarMensajeApp(
+        '✓ Entrada guardada. Se sincronizará cuando vuelva Internet.',
+        false
+      );
+
+
+      actualizarEstadoOffline();
+
+    }
+
+    else {
+
+      mostrarMensajeApp(
+        'ERROR: ' +
+        error.message,
+        true
+      );
+
+
+      boton.disabled =
+        false;
+
+    }
 
   }
 
 }
-
 
 
 /* =====================================================
@@ -1421,8 +2421,106 @@ async function registrarSalida() {
     );
 
 
-  boton.disabled = true;
+  boton.disabled =
+    true;
 
+
+  /*
+   * =================================================
+   * SIN INTERNET
+   * =================================================
+   */
+
+  if (
+    !navigator.onLine
+  ) {
+
+    const ahora =
+      Date.now();
+
+
+    agregarOperacionOffline({
+
+      tipo:
+        'salida',
+
+      email:
+        emailActual,
+
+      timestamp:
+        ahora
+
+    });
+
+
+    mostrarMensajeApp(
+      '✓ Salida guardada. Se sincronizará cuando vuelva Internet.',
+      false
+    );
+
+
+    const estado =
+      document.getElementById(
+        'estado'
+      );
+
+
+    estado.className =
+      'estado estado-offline';
+
+
+    estado.innerHTML =
+
+      '🟡 ' +
+
+      '<span class="estado-titulo">' +
+
+      'SALIDA PENDIENTE' +
+
+      '</span>' +
+
+      '<br><br>' +
+
+      'La hora quedó guardada en este teléfono.';
+
+
+    document
+      .getElementById(
+        'cliente'
+      )
+      .value =
+      '';
+
+
+    document
+      .getElementById(
+        'cliente'
+      )
+      .disabled =
+      false;
+
+
+    document
+      .getElementById(
+        'btnEntrada'
+      )
+      .disabled =
+      false;
+
+
+    actualizarIndicadorPendientes();
+
+
+    return;
+
+  }
+
+
+  /*
+   * =================================================
+   * CON INTERNET
+   * =================================================
+   */
 
   mostrarMensajeApp(
     'Registrando salida...',
@@ -1443,38 +2541,16 @@ async function registrarSalida() {
       );
 
 
-    /*
-     * MOSTRAR EN CONSOLA
-     *
-     * Esto nos permite comprobar
-     * exactamente qué devuelve la API.
-     */
-
-    console.log(
-      'RESPUESTA REGISTRAR SALIDA:',
-      resultado
-    );
-
-
-    if (
-      !resultado ||
-      !resultado.ok
-    ) {
+    if (!resultado.ok) {
 
       mostrarMensajeApp(
-
-        resultado &&
-        resultado.mensaje
-
-          ? resultado.mensaje
-
-          : 'No se pudo registrar la salida.',
-
+        resultado.mensaje,
         true
-
       );
 
+
       await actualizarEstado();
+
 
       return;
 
@@ -1482,99 +2558,48 @@ async function registrarSalida() {
 
 
     /*
-     * =================================================
-     * OBTENER HORAS
-     * =================================================
+     * Preferimos horasTexto,
+     * que ya viene preparado
+     * desde Apps Script.
      */
 
-    let textoHoras = '';
+    let textoHoras;
 
-
-    /*
-     * OPCIÓN 1
-     *
-     * Apps Script devuelve horasTexto.
-     */
 
     if (
-
-      resultado.horasTexto !== undefined &&
-
-      resultado.horasTexto !== null &&
-
-      String(
-        resultado.horasTexto
-      ).trim() !== ''
-
+      resultado.horasTexto
     ) {
 
       textoHoras =
-        String(
-          resultado.horasTexto
-        );
+        resultado.horasTexto;
 
     }
 
-
-    /*
-     * OPCIÓN 2
-     *
-     * Apps Script devuelve horas.
-     */
-
     else if (
-
       resultado.horas !== undefined &&
-
       resultado.horas !== null &&
-
       !isNaN(
-        Number(
-          resultado.horas
-        )
+        Number(resultado.horas)
       )
-
     ) {
 
       textoHoras =
         convertirHoras(
-          Number(
-            resultado.horas
-          )
+          Number(resultado.horas)
         );
 
     }
 
-
-    /*
-     * OPCIÓN 3
-     *
-     * Calculamos con entrada y salida.
-     */
-
     else if (
-
-      resultado.entrada !== undefined &&
-
-      resultado.salida !== undefined &&
-
-      resultado.entrada !== null &&
-
-      resultado.salida !== null
-
+      resultado.entrada &&
+      resultado.salida
     ) {
 
-      const diferencia =
-        Number(
-          resultado.salida
-        ) -
-        Number(
-          resultado.entrada
-        );
-
-
-      const horasCalculadas =
-        diferencia /
+      const horas =
+        (
+          Number(resultado.salida) -
+          Number(resultado.entrada)
+        ) /
         1000 /
         60 /
         60;
@@ -1582,34 +2607,27 @@ async function registrarSalida() {
 
       textoHoras =
         convertirHoras(
-          horasCalculadas
+          horas
         );
 
     }
 
-
-    /*
-     * SI TODO FALLA
-     */
-
     else {
 
       textoHoras =
-        'no disponibles';
+        '0 minutos';
 
     }
 
 
-    /*
-     * =================================================
-     * MOSTRAR RESULTADO
-     * ================================================= */
-
     mostrarMensajeApp(
 
       '✓ Salida registrada. ' +
+
       'Trabajaste ' +
+
       textoHoras +
+
       '.',
 
       false
@@ -1617,43 +2635,481 @@ async function registrarSalida() {
     );
 
 
-    /*
-     * LIMPIAR CLIENTE
-     */
-
     document
       .getElementById(
         'cliente'
       )
-      .value = '';
+      .value =
+      '';
 
-
-    /*
-     * ACTUALIZAR ESTADO
-     */
 
     await actualizarEstado();
-
 
   }
 
   catch (error) {
 
-    mostrarMensajeApp(
+    if (
+      error.message ===
+      'SIN_CONEXION'
+    ) {
 
-      'ERROR: ' +
-      error.message,
+      agregarOperacionOffline({
 
-      true
+        tipo:
+          'salida',
 
-    );
+        email:
+          emailActual,
 
-    boton.disabled = false;
+        timestamp:
+          Date.now()
+
+      });
+
+
+      mostrarMensajeApp(
+        '✓ Salida guardada. Se sincronizará cuando vuelva Internet.',
+        false
+      );
+
+
+      actualizarEstadoOffline();
+
+    }
+
+    else {
+
+      mostrarMensajeApp(
+        'ERROR: ' +
+        error.message,
+        true
+      );
+
+
+      boton.disabled =
+        false;
+
+    }
 
   }
 
 }
 
+
+/* =====================================================
+   COLA OFFLINE
+   ===================================================== */
+
+function obtenerColaOffline() {
+
+  try {
+
+    const datos =
+      localStorage.getItem(
+        STORAGE_COLA
+      );
+
+
+    if (!datos) {
+
+      return [];
+
+    }
+
+
+    const cola =
+      JSON.parse(datos);
+
+
+    if (
+      !Array.isArray(cola)
+    ) {
+
+      return [];
+
+    }
+
+
+    return cola;
+
+  }
+
+  catch (error) {
+
+    return [];
+
+  }
+
+}
+
+
+/* =====================================================
+   GUARDAR OPERACIÓN OFFLINE
+   ===================================================== */
+
+function agregarOperacionOffline(
+  operacion
+) {
+
+  const cola =
+    obtenerColaOffline();
+
+
+  operacion.id =
+    Date.now() +
+    '_' +
+    Math.random()
+      .toString(36)
+      .substring(2);
+
+
+  operacion.creada =
+    Date.now();
+
+
+  cola.push(
+    operacion
+  );
+
+
+  localStorage.setItem(
+    STORAGE_COLA,
+    JSON.stringify(
+      cola
+    )
+  );
+
+
+  actualizarIndicadorPendientes();
+
+}
+
+
+/* =====================================================
+   MOSTRAR PENDIENTES
+   ===================================================== */
+
+function actualizarIndicadorPendientes() {
+
+  const pendientes =
+    obtenerColaOffline();
+
+
+  const elemento =
+    document.getElementById(
+      'sincronizacion'
+    );
+
+
+  const indicador =
+    document.getElementById(
+      'estadoConexion'
+    );
+
+
+  if (!elemento) {
+    return;
+  }
+
+
+  if (
+    pendientes.length === 0
+  ) {
+
+    elemento.classList.remove(
+      'visible'
+    );
+
+
+    /*
+     * Si estamos online,
+     * volvemos al indicador
+     * normal.
+     */
+
+    if (
+      navigator.onLine
+    ) {
+
+      indicador.className =
+        'estadoConexion online';
+
+
+      indicador.innerText =
+        '🟢 CONECTADO';
+
+    }
+
+
+    return;
+
+  }
+
+
+  elemento.classList.add(
+    'visible'
+  );
+
+
+  elemento.innerText =
+
+    '⏳ ' +
+
+    pendientes.length +
+
+    (
+      pendientes.length === 1
+        ? ' operación pendiente de sincronizar.'
+        : ' operaciones pendientes de sincronizar.'
+    );
+
+
+  if (
+    navigator.onLine
+  ) {
+
+    indicador.className =
+      'estadoConexion pendiente';
+
+
+    indicador.innerText =
+      '🟡 SINCRONIZANDO...';
+
+  }
+
+}
+
+
+/* =====================================================
+   SINCRONIZAR PENDIENTES
+   ===================================================== */
+
+async function sincronizarPendientes() {
+
+  if (
+    sincronizando
+  ) {
+
+    return;
+
+  }
+
+
+  if (
+    !navigator.onLine
+  ) {
+
+    return;
+
+  }
+
+
+  const cola =
+    obtenerColaOffline();
+
+
+  if (
+    cola.length === 0
+  ) {
+
+    actualizarIndicadorPendientes();
+
+    return;
+
+  }
+
+
+  sincronizando =
+    true;
+
+
+  try {
+
+    /*
+     * Trabajamos una operación
+     * por vez para respetar
+     * el orden entrada -> salida.
+     */
+
+    for (
+      let i = 0;
+      i < cola.length;
+      i++
+    ) {
+
+      if (
+        !navigator.onLine
+      ) {
+
+        break;
+
+      }
+
+
+      const operacion =
+        cola[i];
+
+
+      let resultado;
+
+
+      try {
+
+        /*
+         * TEMPORALMENTE mandamos
+         * timestamp también.
+         *
+         * WebApp.gs tendrá que
+         * recibirlo para conservar
+         * la hora real.
+         */
+
+        if (
+          operacion.tipo ===
+          'entrada'
+        ) {
+
+          resultado =
+            await llamarAPI(
+              'registrarEntrada',
+              {
+
+                email:
+                  operacion.email,
+
+                cliente:
+                  operacion.cliente,
+
+                timestamp:
+                  operacion.timestamp
+
+              }
+            );
+
+        }
+
+
+        else if (
+          operacion.tipo ===
+          'salida'
+        ) {
+
+          resultado =
+            await llamarAPI(
+              'registrarSalida',
+              {
+
+                email:
+                  operacion.email,
+
+                timestamp:
+                  operacion.timestamp
+
+              }
+            );
+
+        }
+
+
+        /*
+         * Si se procesó correctamente,
+         * eliminamos esa operación.
+         */
+
+        if (
+          resultado &&
+          resultado.ok
+        ) {
+
+          cola.splice(
+            i,
+            1
+          );
+
+
+          i--;
+
+
+          localStorage.setItem(
+            STORAGE_COLA,
+            JSON.stringify(
+              cola
+            )
+          );
+
+
+          actualizarIndicadorPendientes();
+
+        }
+
+        else {
+
+          /*
+           * Si el servidor rechazó
+           * la operación, dejamos
+           * la cola intacta.
+           */
+
+          console.log(
+            'Operación pendiente:',
+            resultado
+          );
+
+
+          break;
+
+        }
+
+      }
+
+      catch (error) {
+
+        /*
+         * Si vuelve a caerse Internet,
+         * detenemos la sincronización.
+         */
+
+        break;
+
+      }
+
+    }
+
+
+    /*
+     * Cuando termina la sincronización,
+     * actualizamos el estado real.
+     */
+
+    if (
+      navigator.onLine &&
+      obtenerColaOffline().length === 0
+    ) {
+
+      mostrarMensajeApp(
+        '✓ Operaciones sincronizadas correctamente.',
+        false
+      );
+
+
+      await actualizarEstado();
+
+    }
+
+  }
+
+  finally {
+
+    sincronizando =
+      false;
+
+
+    actualizarIndicadorPendientes();
+
+  }
+
+}
 
 
 /* =====================================================
@@ -1673,17 +3129,36 @@ function cambiarUsuario() {
   }
 
 
+  /*
+   * IMPORTANTE:
+   *
+   * No borramos clientes ni
+   * cola offline.
+   *
+   * Solo cambiamos el usuario
+   * de sesión.
+   */
+
   localStorage.removeItem(
-    'controlLimpiezaEmail'
+    STORAGE_EMAIL
   );
 
 
   localStorage.removeItem(
-    'controlLimpiezaNombre'
+    STORAGE_NOMBRE
   );
 
 
-  emailActual = '';
+  emailActual =
+    '';
+
+
+  nombreActual =
+    '';
+
+
+  clientesActuales =
+    [];
 
 
   document
@@ -1706,7 +3181,8 @@ function cambiarUsuario() {
     .getElementById(
       'email'
     )
-    .value = '';
+    .value =
+    '';
 
 
   document
@@ -1715,8 +3191,10 @@ function cambiarUsuario() {
     )
     .focus();
 
-}
 
+  actualizarIndicadorConexion();
+
+}
 
 
 /* =====================================================
@@ -1736,6 +3214,7 @@ function formatearHora(
   return fecha.toLocaleTimeString(
     'es-AR',
     {
+
       hour:
         '2-digit',
 
@@ -1744,11 +3223,11 @@ function formatearHora(
 
       second:
         '2-digit'
+
     }
   );
 
 }
-
 
 
 /* =====================================================
@@ -1759,22 +3238,6 @@ function convertirHoras(
   horas
 ) {
 
-  horas =
-    Number(
-      horas
-    );
-
-
-  if (
-    !isFinite(horas) ||
-    horas < 0
-  ) {
-
-    return '0 minutos';
-
-  }
-
-
   const h =
     Math.floor(
       horas
@@ -1783,26 +3246,19 @@ function convertirHoras(
 
   const minutos =
     Math.round(
-      (
-        horas -
-        h
-      ) *
-      60
+      (horas - h) * 60
     );
 
-
-  /*
-   * CORREGIR 60 MINUTOS
-   */
 
   if (
     minutos >= 60
   ) {
 
-    return (
-      h + 1
-    ) +
-    ' h';
+    return
+      (
+        h + 1
+      ) +
+      ' h 0 min';
 
   }
 
@@ -1818,41 +3274,13 @@ function convertirHoras(
   }
 
 
-  if (
-    minutos === 0
-  ) {
-
-    return
-      h +
-      (
-        h === 1
-          ? ' hora'
-          : ' horas'
-      );
-
-  }
-
-
   return
-
     h +
-
-    (
-      h === 1
-        ? ' hora '
-        : ' horas '
-    ) +
-
+    ' h ' +
     minutos +
-
-    (
-      minutos === 1
-        ? ' minuto'
-        : ' minutos'
-    );
+    ' min';
 
 }
-
 
 
 /* =====================================================
@@ -1875,14 +3303,18 @@ function mostrarMensajeLogin(
     texto;
 
 
-  if (error) {
+  if (
+    error
+  ) {
 
     elemento.className =
       'mensaje mensaje-error';
 
   }
 
-  else if (cargando) {
+  else if (
+    cargando
+  ) {
 
     elemento.className =
       'mensaje mensaje-cargando';
@@ -1899,7 +3331,6 @@ function mostrarMensajeLogin(
 }
 
 
-
 /* =====================================================
    MENSAJE APP
    ===================================================== */
@@ -1907,7 +3338,8 @@ function mostrarMensajeLogin(
 function mostrarMensajeApp(
   texto,
   error,
-  cargando
+  cargando,
+  offline
 ) {
 
   const elemento =
@@ -1920,14 +3352,27 @@ function mostrarMensajeApp(
     texto;
 
 
-  if (error) {
+  if (
+    error
+  ) {
 
     elemento.className =
       'mensaje mensaje-error';
 
   }
 
-  else if (cargando) {
+  else if (
+    offline
+  ) {
+
+    elemento.className =
+      'mensaje mensaje-offline';
+
+  }
+
+  else if (
+    cargando
+  ) {
 
     elemento.className =
       'mensaje mensaje-cargando';
@@ -1943,36 +3388,66 @@ function mostrarMensajeApp(
 
 }
 
+
+/* =====================================================
+   INTENTAR SINCRONIZAR AL VOLVER
+   ===================================================== */
+
+document.addEventListener(
+  'visibilitychange',
+  function() {
+
+    if (
+      document.visibilityState ===
+      'visible'
+    ) {
+
+      actualizarIndicadorConexion();
+
+
+      if (
+        navigator.onLine
+      ) {
+
+        sincronizarPendientes();
+
+        if (
+          emailActual
+        ) {
+
+          actualizarEstado();
+
+        }
+
+      }
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   SINCRONIZACIÓN PERIÓDICA
+   ===================================================== */
+
+setInterval(
+  function() {
+
+    if (
+      navigator.onLine
+    ) {
+
+      sincronizarPendientes();
+
+    }
+
+  },
+  15000
+);
+
 </script>
-<script>
 
-if ('serviceWorker' in navigator) {
-
-  window.addEventListener('load', function() {
-
-    navigator.serviceWorker
-      .register('./sw.js')
-      .then(function() {
-
-        console.log(
-          'Service Worker registrado correctamente.'
-        );
-
-      })
-      .catch(function(error) {
-
-        console.error(
-          'Error registrando Service Worker:',
-          error
-        );
-
-      });
-
-  });
-
-}
-
-</script>
 </body>
 
 </html>
