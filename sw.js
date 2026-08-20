@@ -4,7 +4,9 @@ const ARCHIVOS = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './sw.js'
+  './sw.js',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 
@@ -25,10 +27,6 @@ self.addEventListener('install', event => {
       })
 
   );
-
-  /*
-   * Activa inmediatamente la nueva versión
-   */
 
   self.skipWaiting();
 
@@ -59,11 +57,6 @@ self.addEventListener('activate', event => {
 
   );
 
-  /*
-   * Toma control de la aplicación
-   * inmediatamente.
-   */
-
   self.clients.claim();
 
 });
@@ -84,11 +77,7 @@ self.addEventListener('fetch', event => {
    * API
    * =================================================
    *
-   * NO guardamos respuestas de la API.
-   *
-   * Si no hay Internet,
-   * Index.js utiliza localStorage
-   * y la cola offline.
+   * No cacheamos la API.
    */
 
   if (
@@ -102,11 +91,8 @@ self.addEventListener('fetch', event => {
 
   /*
    * =================================================
-   * SOLO PETICIONES GET
+   * SOLO GET
    * =================================================
-   *
-   * POST, PUT, DELETE, etc.
-   * no se manejan desde la caché.
    */
 
   if (
@@ -120,17 +106,8 @@ self.addEventListener('fetch', event => {
 
   /*
    * =================================================
-   * APLICACIÓN
+   * ARCHIVOS DE LA APLICACIÓN
    * =================================================
-   *
-   * Primero intenta Internet.
-   *
-   * Si funciona:
-   *   - devuelve la versión nueva
-   *   - guarda una copia en caché
-   *
-   * Si falla:
-   *   - utiliza la copia guardada.
    */
 
   event.respondWith(
@@ -138,11 +115,6 @@ self.addEventListener('fetch', event => {
     fetch(request)
 
       .then(response => {
-
-        /*
-         * Si la respuesta es válida,
-         * guardamos una copia.
-         */
 
         if (
           response &&
@@ -173,12 +145,6 @@ self.addEventListener('fetch', event => {
 
       .catch(() => {
 
-        /*
-         * INTERNET NO DISPONIBLE
-         *
-         * Buscamos la copia local.
-         */
-
         return caches
           .match(request)
           .then(response => {
@@ -189,13 +155,6 @@ self.addEventListener('fetch', event => {
 
             }
 
-
-            /*
-             * Si no encontramos
-             * exactamente el archivo,
-             * intentamos devolver
-             * index.html.
-             */
 
             return caches.match(
               './index.html'
