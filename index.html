@@ -1061,6 +1061,7 @@ button:disabled {
   <div
     id="sincronizacion"
     class="sincronizacion">
+
   </div>
 
 
@@ -1113,25 +1114,17 @@ const STORAGE_COLA =
   'controlLimpiezaColaOffline';
 
 
-/*
- * NUEVO
- *
- * Guarda el estado de trabajo local.
- *
- * Esto permite trabajar completamente
- * sin Internet.
- */
-
-const STORAGE_TRABAJO =
-  'controlLimpiezaTrabajoOffline';
-
-
 let emailActual = '';
 
 let nombreActual = '';
 
 let clientesActuales = [];
 
+
+/*
+ * Evita ejecutar dos sincronizaciones
+ * al mismo tiempo.
+ */
 
 let sincronizando = false;
 
@@ -1147,7 +1140,7 @@ window.addEventListener(
 
 
 /* =====================================================
-   INTERNET
+   DETECTAR INTERNET
    ===================================================== */
 
 window.addEventListener(
@@ -1196,9 +1189,11 @@ async function iniciar() {
 
   actualizarIndicadorConexion();
 
-
   /*
-   * SERVICE WORKER
+   * Registrar Service Worker.
+   *
+   * Esto permitirá que la aplicación
+   * pueda abrirse sin Internet.
    */
 
   registrarServiceWorker();
@@ -1237,21 +1232,6 @@ async function iniciar() {
     );
 
 
-    /*
-     * Si existe un trabajo
-     * guardado localmente,
-     * lo recuperamos.
-     */
-
-    if (
-      obtenerTrabajoOffline()
-    ) {
-
-      mostrarEstadoTrabajoOffline();
-
-    }
-
-
     if (
       navigator.onLine
     ) {
@@ -1259,14 +1239,6 @@ async function iniciar() {
       cargarClientes();
 
       actualizarEstado();
-
-      /*
-       * Intentamos sincronizar
-       * por si quedaron operaciones
-       * pendientes.
-       */
-
-      sincronizarPendientes();
 
     }
 
@@ -1366,7 +1338,7 @@ function actualizarIndicadorConexion() {
 
 
 /* =====================================================
-   API
+   PETICIÓN API
    ===================================================== */
 
 async function llamarAPI(
@@ -1454,7 +1426,9 @@ async function ingresar() {
 
 
   /*
-   * OFFLINE
+   * Si no hay Internet,
+   * intentamos utilizar datos
+   * guardados previamente.
    */
 
   if (
@@ -1494,23 +1468,7 @@ async function ingresar() {
       );
 
 
-      /*
-       * Recuperar trabajo offline
-       */
-
-      if (
-        obtenerTrabajoOffline()
-      ) {
-
-        mostrarEstadoTrabajoOffline();
-
-      }
-
-      else {
-
-        actualizarEstadoOffline();
-
-      }
+      actualizarEstadoOffline();
 
 
       return;
@@ -1552,10 +1510,8 @@ async function ingresar() {
       await llamarAPI(
         'verificarUsuario',
         {
-
           email:
             email
-
         }
       );
 
@@ -1607,7 +1563,6 @@ async function ingresar() {
 
     await actualizarEstado();
 
-    await sincronizarPendientes();
 
   }
 
@@ -1680,6 +1635,11 @@ function mostrarAplicacion(
 
 async function cargarClientes() {
 
+  /*
+   * Si no hay Internet,
+   * usamos los clientes guardados.
+   */
+
   if (
     !navigator.onLine
   ) {
@@ -1704,15 +1664,18 @@ async function cargarClientes() {
       await llamarAPI(
         'obtenerClientes',
         {
-
           email:
             emailActual
-
         }
       );
 
 
     if (!resultado.ok) {
+
+      /*
+       * Si falla la API,
+       * intentamos clientes locales.
+       */
 
       cargarClientesLocales();
 
@@ -1731,6 +1694,11 @@ async function cargarClientes() {
     clientesActuales =
       resultado.clientes || [];
 
+
+    /*
+     * GUARDAR CLIENTES
+     * PARA UTILIZAR OFFLINE.
+     */
 
     localStorage.setItem(
       STORAGE_CLIENTES,
@@ -1819,14 +1787,14 @@ function cargarClientesLocales() {
 
 
     if (!datos) {
+
       return;
+
     }
 
 
     const clientes =
-      JSON.parse(
-        datos
-      );
+      JSON.parse(datos);
 
 
     if (
@@ -1936,25 +1904,8 @@ function mostrarClientesEnSelect(
 async function actualizarEstado() {
 
   /*
-   * Si hay trabajo local pendiente,
-   * primero lo mostramos.
+   * OFFLINE
    */
-
-  const trabajoLocal =
-    obtenerTrabajoOffline();
-
-
-  if (
-    trabajoLocal &&
-    !navigator.onLine
-  ) {
-
-    mostrarEstadoTrabajoOffline();
-
-    return;
-
-  }
-
 
   if (
     !navigator.onLine
@@ -1973,10 +1924,8 @@ async function actualizarEstado() {
       await llamarAPI(
         'obtenerEstado',
         {
-
           email:
             emailActual
-
         }
       );
 
@@ -2002,26 +1951,7 @@ async function actualizarEstado() {
 
   catch (error) {
 
-    /*
-     * Si falla Internet,
-     * usamos el estado local.
-     */
-
-    const trabajo =
-      obtenerTrabajoOffline();
-
-
-    if (trabajo) {
-
-      mostrarEstadoTrabajoOffline();
-
-    }
-
-    else {
-
-      actualizarEstadoOffline();
-
-    }
+    actualizarEstadoOffline();
 
   }
 
@@ -2033,21 +1963,6 @@ async function actualizarEstado() {
    ===================================================== */
 
 function actualizarEstadoOffline() {
-
-  const trabajo =
-    obtenerTrabajoOffline();
-
-
-  if (
-    trabajo
-  ) {
-
-    mostrarEstadoTrabajoOffline();
-
-    return;
-
-  }
-
 
   const estado =
     document.getElementById(
@@ -2072,6 +1987,14 @@ function actualizarEstadoOffline() {
       'cliente'
     );
 
+
+  /*
+   * Por ahora no inventamos
+   * el estado del servidor.
+   *
+   * Mostramos claramente que
+   * estamos sin conexión.
+   */
 
   estado.className =
     'estado estado-offline';
@@ -2089,7 +2012,7 @@ function actualizarEstadoOffline() {
 
     '<br><br>' +
 
-    'Podés registrar operaciones.';
+    'Las operaciones quedarán pendientes de sincronización.';
 
 
   btnEntrada.disabled =
@@ -2110,102 +2033,7 @@ function actualizarEstadoOffline() {
 
 
 /* =====================================================
-   MOSTRAR ESTADO LOCAL DE TRABAJO
-   ===================================================== */
-
-function mostrarEstadoTrabajoOffline() {
-
-  const trabajo =
-    obtenerTrabajoOffline();
-
-
-  if (!trabajo) {
-
-    actualizarEstadoOffline();
-
-    return;
-
-  }
-
-
-  const estado =
-    document.getElementById(
-      'estado'
-    );
-
-
-  const btnEntrada =
-    document.getElementById(
-      'btnEntrada'
-    );
-
-
-  const btnSalida =
-    document.getElementById(
-      'btnSalida'
-    );
-
-
-  const cliente =
-    document.getElementById(
-      'cliente'
-    );
-
-
-  estado.className =
-    'estado estado-offline';
-
-
-  estado.innerHTML =
-
-    '🟡 ' +
-
-    '<span class="estado-titulo">' +
-
-    'ESTÁS TRABAJANDO OFFLINE' +
-
-    '</span>' +
-
-    '<br><br>' +
-
-    'Cliente: <b>' +
-
-    trabajo.cliente +
-
-    '</b>' +
-
-    '<br>' +
-
-    'Entrada: ' +
-
-    formatearHora(
-      trabajo.entrada
-    ) +
-
-    '<br><br>' +
-
-    'La operación se sincronizará al volver Internet.';
-
-
-  btnEntrada.disabled =
-    true;
-
-
-  btnSalida.disabled =
-    false;
-
-
-  cliente.disabled =
-    true;
-
-
-  actualizarIndicadorPendientes();
-
-}
-
-
-/* =====================================================
-   MOSTRAR ESTADO SERVIDOR
+   MOSTRAR ESTADO DEL SERVIDOR
    ===================================================== */
 
 function mostrarEstadoServidor(
@@ -2234,26 +2062,6 @@ function mostrarEstadoServidor(
     document.getElementById(
       'cliente'
     );
-
-
-  /*
-   * Si todavía existe trabajo local,
-   * tiene prioridad.
-   */
-
-  const trabajoLocal =
-    obtenerTrabajoOffline();
-
-
-  if (
-    trabajoLocal
-  ) {
-
-    mostrarEstadoTrabajoOffline();
-
-    return;
-
-  }
 
 
   if (
@@ -2378,7 +2186,7 @@ async function registrarEntrada() {
 
   /*
    * =================================================
-   * OFFLINE
+   * SIN INTERNET
    * =================================================
    */
 
@@ -2391,25 +2199,8 @@ async function registrarEntrada() {
 
 
     /*
-     * Guardar estado local
-     */
-
-    guardarTrabajoOffline({
-
-      email:
-        emailActual,
-
-      cliente:
-        cliente,
-
-      entrada:
-        ahora
-
-    });
-
-
-    /*
-     * Guardar operación
+     * Guardamos la operación
+     * completa localmente.
      */
 
     agregarOperacionOffline({
@@ -2435,7 +2226,53 @@ async function registrarEntrada() {
     );
 
 
-    mostrarEstadoTrabajoOffline();
+    /*
+     * Mostramos estado local.
+     */
+
+    const estado =
+      document.getElementById(
+        'estado'
+      );
+
+
+    estado.className =
+      'estado estado-offline';
+
+
+    estado.innerHTML =
+
+      '🟡 ' +
+
+      '<span class="estado-titulo">' +
+
+      'ENTRADA PENDIENTE' +
+
+      '</span>' +
+
+      '<br><br>' +
+
+      'Cliente: <b>' +
+
+      cliente +
+
+      '</b>';
+
+
+    select.disabled =
+      true;
+
+
+    boton.disabled =
+      true;
+
+
+    document
+      .getElementById(
+        'btnSalida'
+      )
+      .disabled =
+      true;
 
 
     actualizarIndicadorPendientes();
@@ -2448,7 +2285,7 @@ async function registrarEntrada() {
 
   /*
    * =================================================
-   * ONLINE
+   * CON INTERNET
    * =================================================
    */
 
@@ -2461,10 +2298,6 @@ async function registrarEntrada() {
 
   try {
 
-    const ahora =
-      Date.now();
-
-
     const resultado =
       await llamarAPI(
         'registrarEntrada',
@@ -2474,10 +2307,7 @@ async function registrarEntrada() {
             emailActual,
 
           cliente:
-            cliente,
-
-          fechaEntrada:
-            ahora
+            cliente
 
         }
       );
@@ -2512,32 +2342,15 @@ async function registrarEntrada() {
   catch (error) {
 
     /*
-     * La conexión pudo haberse
-     * perdido justo al enviar.
+     * Si la conexión desapareció
+     * durante la operación,
+     * guardamos localmente.
      */
 
     if (
       error.message ===
       'SIN_CONEXION'
     ) {
-
-      const ahora =
-        Date.now();
-
-
-      guardarTrabajoOffline({
-
-        email:
-          emailActual,
-
-        cliente:
-          cliente,
-
-        entrada:
-          ahora
-
-      });
-
 
       agregarOperacionOffline({
 
@@ -2551,7 +2364,7 @@ async function registrarEntrada() {
           cliente,
 
         timestamp:
-          ahora
+          Date.now()
 
       });
 
@@ -2562,8 +2375,7 @@ async function registrarEntrada() {
       );
 
 
-      mostrarEstadoTrabajoOffline();
-
+      actualizarEstadoOffline();
 
     }
 
@@ -2615,7 +2427,7 @@ async function registrarSalida() {
 
   /*
    * =================================================
-   * OFFLINE
+   * SIN INTERNET
    * =================================================
    */
 
@@ -2623,34 +2435,9 @@ async function registrarSalida() {
     !navigator.onLine
   ) {
 
-    const trabajo =
-      obtenerTrabajoOffline();
-
-
-    if (!trabajo) {
-
-      mostrarMensajeApp(
-        'No hay una entrada pendiente.',
-        true
-      );
-
-
-      boton.disabled =
-        false;
-
-
-      return;
-
-    }
-
-
     const ahora =
       Date.now();
 
-
-    /*
-     * Guardamos salida en cola.
-     */
 
     agregarOperacionOffline({
 
@@ -2666,37 +2453,8 @@ async function registrarSalida() {
     });
 
 
-    /*
-     * Ya no está trabajando.
-     */
-
-    borrarTrabajoOffline();
-
-
-    /*
-     * Calculamos horas localmente
-     */
-
-    const horas =
-      (
-        ahora -
-        trabajo.entrada
-      ) /
-      1000 /
-      60 /
-      60;
-
-
-    const textoHoras =
-      convertirHoras(
-        horas
-      );
-
-
     mostrarMensajeApp(
-      '✓ Salida guardada. Trabajaste ' +
-      textoHoras +
-      '. Se sincronizará cuando vuelva Internet.',
+      '✓ Salida guardada. Se sincronizará cuando vuelva Internet.',
       false
     );
 
@@ -2723,17 +2481,7 @@ async function registrarSalida() {
 
       '<br><br>' +
 
-      'Trabajaste ' +
-
-      '<b>' +
-
-      textoHoras +
-
-      '</b>' +
-
-      '<br><br>' +
-
-      'Se sincronizará cuando vuelva Internet.';
+      'La hora quedó guardada en este teléfono.';
 
 
     document
@@ -2770,7 +2518,7 @@ async function registrarSalida() {
 
   /*
    * =================================================
-   * ONLINE
+   * CON INTERNET
    * =================================================
    */
 
@@ -2783,21 +2531,12 @@ async function registrarSalida() {
 
   try {
 
-    const ahora =
-      Date.now();
-
-
     const resultado =
       await llamarAPI(
         'registrarSalida',
         {
-
           email:
-            emailActual,
-
-          fechaSalida:
-            ahora
-
+            emailActual
         }
       );
 
@@ -2817,6 +2556,12 @@ async function registrarSalida() {
 
     }
 
+
+    /*
+     * Preferimos horasTexto,
+     * que ya viene preparado
+     * desde Apps Script.
+     */
 
     let textoHoras;
 
@@ -2876,10 +2621,17 @@ async function registrarSalida() {
 
 
     mostrarMensajeApp(
-      '✓ Salida registrada. Trabajaste ' +
+
+      '✓ Salida registrada. ' +
+
+      'Trabajaste ' +
+
       textoHoras +
+
       '.',
+
       false
+
     );
 
 
@@ -2902,40 +2654,6 @@ async function registrarSalida() {
       'SIN_CONEXION'
     ) {
 
-      const trabajo =
-        obtenerTrabajoOffline();
-
-
-      /*
-       * Si perdimos conexión
-       * durante la salida y no
-       * teníamos estado local,
-       * no inventamos la entrada.
-       */
-
-      if (
-        !trabajo
-      ) {
-
-        mostrarMensajeApp(
-          'Se perdió la conexión y no se pudo determinar la entrada local.',
-          true
-        );
-
-
-        boton.disabled =
-          false;
-
-
-        return;
-
-      }
-
-
-      const ahora =
-        Date.now();
-
-
       agregarOperacionOffline({
 
         tipo:
@@ -2945,34 +2663,13 @@ async function registrarSalida() {
           emailActual,
 
         timestamp:
-          ahora
+          Date.now()
 
       });
 
 
-      borrarTrabajoOffline();
-
-
-      const horas =
-        (
-          ahora -
-          trabajo.entrada
-        ) /
-        1000 /
-        60 /
-        60;
-
-
-      const textoHoras =
-        convertirHoras(
-          horas
-        );
-
-
       mostrarMensajeApp(
-        '✓ Salida guardada. Trabajaste ' +
-        textoHoras +
-        '. Se sincronizará cuando vuelva Internet.',
+        '✓ Salida guardada. Se sincronizará cuando vuelva Internet.',
         false
       );
 
@@ -3001,89 +2698,6 @@ async function registrarSalida() {
 
 
 /* =====================================================
-   TRABAJO OFFLINE
-   ===================================================== */
-
-function obtenerTrabajoOffline() {
-
-  try {
-
-    const datos =
-      localStorage.getItem(
-        STORAGE_TRABAJO
-      );
-
-
-    if (!datos) {
-
-      return null;
-
-    }
-
-
-    const trabajo =
-      JSON.parse(
-        datos
-      );
-
-
-    if (
-      !trabajo ||
-      !trabajo.email ||
-      !trabajo.cliente ||
-      !trabajo.entrada
-    ) {
-
-      return null;
-
-    }
-
-
-    return trabajo;
-
-  }
-
-  catch (error) {
-
-    return null;
-
-  }
-
-}
-
-
-/* =====================================================
-   GUARDAR TRABAJO OFFLINE
-   ===================================================== */
-
-function guardarTrabajoOffline(
-  trabajo
-) {
-
-  localStorage.setItem(
-    STORAGE_TRABAJO,
-    JSON.stringify(
-      trabajo
-    )
-  );
-
-}
-
-
-/* =====================================================
-   BORRAR TRABAJO OFFLINE
-   ===================================================== */
-
-function borrarTrabajoOffline() {
-
-  localStorage.removeItem(
-    STORAGE_TRABAJO
-  );
-
-}
-
-
-/* =====================================================
    COLA OFFLINE
    ===================================================== */
 
@@ -3105,9 +2719,7 @@ function obtenerColaOffline() {
 
 
     const cola =
-      JSON.parse(
-        datos
-      );
+      JSON.parse(datos);
 
 
     if (
@@ -3133,7 +2745,7 @@ function obtenerColaOffline() {
 
 
 /* =====================================================
-   AGREGAR OPERACIÓN OFFLINE
+   GUARDAR OPERACIÓN OFFLINE
    ===================================================== */
 
 function agregarOperacionOffline(
@@ -3175,7 +2787,7 @@ function agregarOperacionOffline(
 
 
 /* =====================================================
-   INDICADOR PENDIENTES
+   MOSTRAR PENDIENTES
    ===================================================== */
 
 function actualizarIndicadorPendientes() {
@@ -3209,6 +2821,12 @@ function actualizarIndicadorPendientes() {
       'visible'
     );
 
+
+    /*
+     * Si estamos online,
+     * volvemos al indicador
+     * normal.
+     */
 
     if (
       navigator.onLine
@@ -3264,7 +2882,7 @@ function actualizarIndicadorPendientes() {
 
 
 /* =====================================================
-   SINCRONIZAR
+   SINCRONIZAR PENDIENTES
    ===================================================== */
 
 async function sincronizarPendientes() {
@@ -3309,18 +2927,9 @@ async function sincronizarPendientes() {
   try {
 
     /*
-     * MUY IMPORTANTE:
-     *
-     * Se procesa una operación
-     * por vez.
-     *
-     * Así:
-     *
-     * ENTRADA
-     * ↓
-     * SALIDA
-     *
-     * nunca al revés.
+     * Trabajamos una operación
+     * por vez para respetar
+     * el orden entrada -> salida.
      */
 
     for (
@@ -3348,7 +2957,19 @@ async function sincronizarPendientes() {
       try {
 
         /*
-         * ENTRADA
+         * =================================================
+         * ENTRADA OFFLINE
+         * =================================================
+         *
+         * IMPORTANTE:
+         *
+         * Mandamos fechaEntrada,
+         * que es el nombre que espera
+         * WebApp.gs.
+         *
+         * Así se conserva la hora original
+         * en la que el empleado apretó
+         * REGISTRAR ENTRADA.
          */
 
         if (
@@ -3367,13 +2988,6 @@ async function sincronizarPendientes() {
                 cliente:
                   operacion.cliente,
 
-                /*
-                 * IMPORTANTE:
-                 *
-                 * WebApp.gs espera
-                 * fechaEntrada.
-                 */
-
                 fechaEntrada:
                   operacion.timestamp
 
@@ -3384,7 +2998,18 @@ async function sincronizarPendientes() {
 
 
         /*
-         * SALIDA
+         * =================================================
+         * SALIDA OFFLINE
+         * =================================================
+         *
+         * IMPORTANTE:
+         *
+         * Mandamos fechaSalida,
+         * que es el nombre que espera
+         * WebApp.gs.
+         *
+         * Así se conserva la hora original
+         * de la salida.
          */
 
         else if (
@@ -3400,13 +3025,6 @@ async function sincronizarPendientes() {
                 email:
                   operacion.email,
 
-                /*
-                 * IMPORTANTE:
-                 *
-                 * WebApp.gs espera
-                 * fechaSalida.
-                 */
-
                 fechaSalida:
                   operacion.timestamp
 
@@ -3417,7 +3035,12 @@ async function sincronizarPendientes() {
 
 
         /*
+         * =================================================
          * OPERACIÓN CORRECTA
+         * =================================================
+         *
+         * Si Apps Script respondió OK,
+         * eliminamos la operación de la cola.
          */
 
         if (
@@ -3449,10 +3072,9 @@ async function sincronizarPendientes() {
         else {
 
           /*
-           * El servidor rechazó
-           * la operación.
-           *
-           * No la borramos.
+           * Si el servidor rechazó
+           * la operación, dejamos
+           * la cola intacta.
            */
 
           console.log(
@@ -3470,7 +3092,8 @@ async function sincronizarPendientes() {
       catch (error) {
 
         /*
-         * Se perdió Internet.
+         * Si vuelve a caerse Internet,
+         * detenemos la sincronización.
          */
 
         break;
@@ -3481,7 +3104,7 @@ async function sincronizarPendientes() {
 
 
     /*
-     * Si ya no quedan operaciones,
+     * Cuando termina la sincronización,
      * actualizamos el estado real.
      */
 
@@ -3533,14 +3156,13 @@ function cambiarUsuario() {
 
 
   /*
-   * NO borramos:
+   * IMPORTANTE:
    *
-   * clientes
-   * cola offline
-   * trabajo offline
+   * No borramos clientes ni
+   * cola offline.
    *
-   * porque podrían contener
-   * operaciones pendientes.
+   * Solo cambiamos el usuario
+   * de sesión.
    */
 
   localStorage.removeItem(
@@ -3635,7 +3257,7 @@ function formatearHora(
 
 
 /* =====================================================
-   CONVERTIR HORAS
+   HORAS TRABAJADAS
    ===================================================== */
 
 function convertirHoras(
@@ -3794,7 +3416,7 @@ function mostrarMensajeApp(
 
 
 /* =====================================================
-   VOLVER A LA APP
+   INTENTAR SINCRONIZAR AL VOLVER
    ===================================================== */
 
 document.addEventListener(
@@ -3820,28 +3442,6 @@ document.addEventListener(
         ) {
 
           actualizarEstado();
-
-        }
-
-      }
-
-      else {
-
-        const trabajo =
-          obtenerTrabajoOffline();
-
-
-        if (
-          trabajo
-        ) {
-
-          mostrarEstadoTrabajoOffline();
-
-        }
-
-        else {
-
-          actualizarEstadoOffline();
 
         }
 
